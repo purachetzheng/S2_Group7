@@ -4,14 +4,20 @@ const users = reactive([
   {
     id: 1,
     name: 'tester1',
+    email: 'tester@t1',
+    status: 'Active'
   },
   {
     id: 2,
     name: 'tester2',
+    email: 'tester@t2',
+    status: 'Active'
   },
   {
     id: 3,
     name: 'tester3',
+    email: 'tester@t3',
+    status: 'Active'
   },
 ])
 const newUserID = ref('')
@@ -40,42 +46,34 @@ const delUser = (id) => {
 
     <!-- content & aside -->
     <div class="lg:flex h-full item-center item-stretch">
-
-      <div class="bg-orange-500 p-10 sm:w-full lg:w-9/12">
-        <h2>Table</h2>
-        <!-- <table class="table-auto">
-          <thead>
+      <div class="bg-orange-500 p-10 sm:w-full lg:w-9/12 flex flex-col">
+        <table class="min-w-full divide-gray-200">
+          <thead class="bg-gray-50">
             <tr>
-              <th>Song</th>
-              <th>Artist</th>
-              <th>Year</th>
+              <th scope="col" class="px-6 py-3 text-left">Name</th>
+              <th scope="col" class="px-6 py-3 text-left">Email</th>
+              <th scope="col" class="px-6 py-3 text-left">Status</th>
+              <th scope="col" class="px-6 py-3 text-left">Add date</th>
+              <th scope="col" class="px-6 py-3 text-left">test</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>The Sliding Mr. Bones (Next Stop, Pottersville)</td>
-              <td>Malcolm Lockyer</td>
-              <td>1961</td>
-            </tr>
-            <tr>
-              <td>Witchy Woman</td>
-              <td>The Eagles</td>
-              <td>1972</td>
-            </tr>
-            <tr>
-              <td>Shining Star</td>
-              <td>Earth, Wind, and Fire</td>
-              <td>1975</td>
+            <tr v-for="(user, i) in users">
+              <td class="px-6 py-3">{{user.name}}</td>
+              <td class="px-6 py-3">{{user.email}}</td>
+              <td class="px-6 py-3">{{user.status}}</td>
+              <td class="px-6 py-3">11/11/11</td>
+              <td class="px-6 py-3"><button class="btn-simple" @click="delUser(user.id)">-</button></td>
+              
             </tr>
           </tbody>
-        </table> -->
+        </table>
       </div>
 
       <div class="bg-teal-500 p-10 sm:w-full lg:w-3/12">
         <h2>sidebar</h2>
       </div>
     </div>
-
     <!-- footer -->
     <div class="p-10">
       <h2>footer</h2>
