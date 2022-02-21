@@ -30,9 +30,9 @@ let Users = reactive({
   addUser(user) {
     Users.users.push(user)
   },
-  delUser(id) {
+  delUser(name) {
     Users.users.splice(
-      Users.users.findIndex((ele) => ele.id == id),
+      Users.users.findIndex((ele) => ele.name == name),
       1
     )
   },
@@ -135,7 +135,7 @@ Users.addUser(user5)
                                 <td class="px-6 py-2">
                                     <button
                                         class="btn-edit mr-2"
-                                        @click="delUser(user.id)"
+                                        @click="Users.delUser(user.name)"
                                     >
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
@@ -155,7 +155,7 @@ Users.addUser(user5)
                                     </button>
                                     <button
                                         class="btn-del"
-                                        @click="Users.delUser(user.id)"
+                                        @click="Users.delUser(user.name)"
                                     >
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
