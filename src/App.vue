@@ -38,6 +38,14 @@ let Users = reactive({
   },
 })
 
+const summit = () => {
+  console.log('s')
+  newUsers.name = newUserName.value
+  newUsers.email = newUserEmail.value
+  Users.addUser(newUsers)
+  newUsers = new user()
+}
+
 let user1 = new user('tester1', 'tester@t1')
 let user2 = new user('tester2', 'tester@t2')
 let user3 = new user('tester3', 'tester@t3')
@@ -48,23 +56,7 @@ Users.addUser(user2)
 Users.addUser(user3)
 Users.addUser(user4)
 Users.addUser(user5)
-const summit = () => {
-  console.log('s')
-  newUsers.name = newUserName.value
-  newUsers.email = newUserEmail.value
-  Users.addUser(newUsers)
-  newUsers = new user()
-}
-// const addNew = () => {
-//   users.push({
-//     id: newUserID.value,
-//     name: newUserName.value,
-//   })
-// }
 
-const test = () => {
-  console.log('test')
-}
 </script>
 
 <template>
