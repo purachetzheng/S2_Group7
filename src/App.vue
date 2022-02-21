@@ -1,40 +1,61 @@
 <script setup>
-import { ref, reactive } from 'vue';
-const users = reactive([
-    {
-        id: 1,
-        name: 'Phumin Chumphu',
-        email: 'chumphu.phumin@gmail.com',
-        status: 'Active',
-    },
-    {
-        id: 2,
-        name: 'Purachet Zheng',
-        email: 'zheng.purachet@gmail.com',
-        status: 'Active',
-    },
-    {
-        id: 3,
-        name: 'Yuttasart Prajaksuwan',
-        email: 'oat.yuttasart@gmail.com',
-        status: 'Active',
-    },
-]);
-const newUserID = ref('');
-const newUserName = ref('');
-const addNew = () => {
-    users.push({
-        id: newUserID.value,
-        name: newUserName.value,
-    });
-};
-const delUser = (id) => {
-    console.log(id);
-    users.splice(
-        users.findIndex((ele) => ele.id == id),
-        1
-    );
-};
+import { ref, reactive } from 'vue'
+class user {
+  constructor(name = '', email = '') {
+    this._name = name
+    this._email = email
+    this._status = 'Active'
+    this._tag = []
+  }
+  get name() {
+    return this._name
+  }
+  set name(name) {
+    this._name = name
+  }
+  get email() {
+    return this._email
+  }
+  set email(email) {
+    this._email = email
+  }
+}
+
+const newUserName = ref('')
+const newUserEmail= ref('')
+let newUsers = reactive(new user())
+
+let Users = reactive({
+  users: [],
+  addUser(user) {
+    Users.users.push(user)
+  },
+  delUser(id) {
+    Users.users.splice(
+      Users.users.findIndex((ele) => ele.id == id),
+      1
+    )
+  },
+})
+
+const summit = () => {
+  console.log('s')
+  newUsers.name = newUserName.value
+  newUsers.email = newUserEmail.value
+  Users.addUser(newUsers)
+  newUsers = new user()
+}
+
+let user1 = new user('tester1', 'tester@t1')
+let user2 = new user('tester2', 'tester@t2')
+let user3 = new user('tester3', 'tester@t3')
+let user4 = new user('tester4', 'tester@t4')
+let user5 = new user('tester5', 'tester@t5')
+Users.addUser(user1)
+Users.addUser(user2)
+Users.addUser(user3)
+Users.addUser(user4)
+Users.addUser(user5)
 </script>
 
 <template>
@@ -86,7 +107,7 @@ const delUser = (id) => {
                         <tbody class="bg-white divide-y divide-gray-200">
                             <tr
                                 class="transition ease-in-out duration-300 hover:bg-gray-200"
-                                v-for="(user, i) in users"
+                                v-for="(user, i) in Users.users"
                             >
                                 <td class="px-6 py-2">
                                     <div class="flex items-center">
@@ -134,7 +155,7 @@ const delUser = (id) => {
                                     </button>
                                     <button
                                         class="btn-del"
-                                        @click="delUser(user.id)"
+                                        @click="Users.delUser(user.id)"
                                     >
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
@@ -157,6 +178,7 @@ const delUser = (id) => {
                                         class="bg-gray-300 rounded-md p-1 pl-3 w-full"
                                         type="text"
                                         placeholder="Input Text"
+                                        @keydown.enter="summit" v-model="newUserName"
                                     />
                                 </td>
                                 <td class="px-6 py-2">
@@ -164,6 +186,7 @@ const delUser = (id) => {
                                         class="bg-gray-300 rounded-md p-1 pl-3 w-full"
                                         type="text"
                                         placeholder="Input Email"
+                                        @keydown.enter="summit" v-model="newUserEmail"
                                     />
                                 </td>
                                 <td></td>
@@ -185,6 +208,7 @@ const delUser = (id) => {
             <h2>footer</h2>
         </div> -->
     </div>
+
 </template>
 
 <style>
