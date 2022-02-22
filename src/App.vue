@@ -2,37 +2,37 @@
 import { ref, reactive } from 'vue';
 class user {
     constructor(name = '', email = '') {
-        this.#name = name
-        this.#email = email
-        this.#status = 'Active'
-        this.#tag = []
+        this._name = name
+        this._email = email
+        this._status = 'Active'
+        this._tag = []
     }
     get name() {
-        return this.#name
+        return this._name
     }
     set name(name) {
-        this.#name = name
+        this._name = name
     }
     get email() {
-        return this.#email
+        return this._email
     }
     set email(email) {
-        this.#email = email
+        this._email = email
     }
     get status(){
-        return this.#status
+        return this._status
     }
     set status(status){
-        this.#status = status
+        this._status = status
     }
     get tag(){
-        return this.#tag
+        return this._tag
     }
     // addTag(tag){
-    //     this.#tag.push(tag)
+    //     this._tag.push(tag)
     // }
     // delTag(tag){
-    //     this.#tag.splice(
+    //     this._tag.splice(
     //         Users.users.findIndex(ele => ele.name == name),
     //         1
     //     )
