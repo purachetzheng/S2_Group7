@@ -2,31 +2,31 @@
 import { ref, reactive } from 'vue';
 class user {
     constructor(name = '', email = '') {
-        this._name = name
-        this._email = email
-        this._status = 'Active'
-        this._tag = []
+        this._name = name;
+        this._email = email;
+        this._status = 'Active';
+        this._tag = [];
     }
     get name() {
-        return this._name
+        return this._name;
     }
     set name(name) {
-        this._name = name
+        this._name = name;
     }
     get email() {
-        return this._email
+        return this._email;
     }
     set email(email) {
-        this._email = email
+        this._email = email;
     }
-    get status(){
-        return this._status
+    get status() {
+        return this._status;
     }
-    set status(status){
-        this._status = status
+    set status(status) {
+        this._status = status;
     }
-    get tag(){
-        return this._tag
+    get tag() {
+        return this._tag;
     }
     // addTag(tag){
     //     this._tag.push(tag)
@@ -39,63 +39,65 @@ class user {
     // }
 }
 
-const newUserName = ref('')
-const newUserEmail = ref('')
-let newUsers = new user()
+const newUserName = ref('');
+const newUserEmail = ref('');
+let newUsers = new user();
 
 let Users = reactive({
     users: [],
     addUser(user) {
-        Users.users.push(user)
+        Users.users.push(user);
     },
     delUser(name) {
         Users.users.splice(
-            Users.users.findIndex(ele => ele.name == name),
+            Users.users.findIndex((ele) => ele.name == name),
             1
-        )
+        );
     },
-    findUser(index,e){
-        console.log(Users.users.find((ele,i) => i == index))
-        console.log(e)
-        return Users.users.find((ele,i) => i == index)
+    findUser(index, e) {
+        console.log(Users.users.find((ele, i) => i == index));
+        console.log(e);
+        return Users.users.find((ele, i) => i == index);
         // console.log('user_'+index)
         // console.log(user_5.value)
     },
-    setUserEmail(index){
-
-    },
-    checkUser(index){
-        if(Users.findUser(index).name == '' || Users.findUser(index).email == ''){
-            Users.findUser.status == 'incomplete'
-        }else{
-            Users.findUser.status == 'Active'
+    setUserEmail(index) {},
+    checkUser(index) {
+        if (
+            Users.findUser(index).name == '' ||
+            Users.findUser(index).email == ''
+        ) {
+            Users.findUser.status == 'incomplete';
+        } else {
+            Users.findUser.status == 'Active';
         }
-    }
-})
+    },
+});
 
 const submit = () => {
-    console.log('s')
-    newUsers.name = newUserName.value
-    newUsers.email = newUserEmail.value
-    Users.addUser(newUsers)
-    newUsers = new user()
-    newUserName.value = ''
-    newUserEmail.value = ''
-}
+    console.log('s');
+    if (newUserEmail.value != '' || newUserName.value != '') {
+        newUsers.name = newUserName.value;
+        newUsers.email = newUserEmail.value;
+        Users.addUser(newUsers);
+        newUsers = new user();
+        newUserName.value = '';
+        newUserEmail.value = '';
+    }
+};
 
-let user1 = new user('tester1', 'tester@t1')
-let user2 = new user('tester2', 'tester@t2')
-let user3 = new user('tester3', 'tester@t3')
-let user4 = new user('tester4', 'tester@t4')
-let user5 = new user('tester5', 'tester@t5')
-let user6 = new user('tester6')
-Users.addUser(user1)
-Users.addUser(user2)
-Users.addUser(user3)
-Users.addUser(user4)
-Users.addUser(user5)
-Users.addUser(user6)
-
+let user1 = new user('tester1', 'tester@t1');
+let user2 = new user('tester2', 'tester@t2');
+let user3 = new user('tester3', 'tester@t3');
+let user4 = new user('tester4', 'tester@t4');
+let user5 = new user('tester5', 'tester@t5');
+let user6 = new user('tester6');
+Users.addUser(user1);
+Users.addUser(user2);
+Users.addUser(user3);
+Users.addUser(user4);
+Users.addUser(user5);
+Users.addUser(user6);
 </script>
 
 <template>
@@ -115,23 +117,33 @@ Users.addUser(user6)
                                 <th
                                     scope="col"
                                     class="px-6 py-3 text-left text-xs tracking-wider tex"
-                                >Name</th>
+                                >
+                                    Name
+                                </th>
                                 <th
                                     scope="col"
                                     class="px-6 py-3 text-left text-xs tracking-wider"
-                                >Email</th>
+                                >
+                                    Email
+                                </th>
                                 <th
                                     scope="col"
                                     class="px-6 py-3 text-left text-xs tracking-wider"
-                                >Status</th>
+                                >
+                                    Status
+                                </th>
                                 <th
                                     scope="col"
                                     class="px-6 py-3 text-left text-xs tracking-wider"
-                                >Add date</th>
+                                >
+                                    Add date
+                                </th>
                                 <th
                                     scope="col"
                                     class="px-6 py-3 text-left text-xs tracking-wider"
-                                >edit</th>
+                                >
+                                    edit
+                                </th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
@@ -155,19 +167,24 @@ Users.addUser(user6)
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-6 py-2" v-if="user.email.length">{{ user.email }}</td>
+                                <td class="px-6 py-2" v-if="user.email.length">
+                                    {{ user.email }}
+                                </td>
                                 <td class="px-6 py-2" v-else>
                                     <input
                                         class="bg-gray-300 rounded-md p-1 pl-3 w-full"
                                         type="text"
                                         placeholder="Input Email"
-                                        @keydown.enter="Users.findUser(i,this.value)"
+                                        @keydown.enter="
+                                            Users.findUser(i, this.value)
+                                        "
                                     />
                                 </td>
                                 <td class="px-6 py-2">
                                     <span
                                         class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
-                                    >{{ user.status }}</span>
+                                        >{{ user.status }}</span
+                                    >
                                 </td>
                                 <td class="px-6 py-2">12 / 01 / 2022</td>
 
@@ -193,7 +210,10 @@ Users.addUser(user6)
                                             />
                                         </svg>
                                     </button>
-                                    <button class="btn-del" @click="Users.delUser(user.name)">
+                                    <button
+                                        class="btn-del"
+                                        @click="Users.delUser(user.name)"
+                                    >
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             class="h-5 w-5"
