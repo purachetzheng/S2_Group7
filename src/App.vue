@@ -1,5 +1,6 @@
 <script setup>
 import { ref, reactive } from 'vue';
+let newEmail = reactive([])
 class user {
     constructor(name = '', email = '') {
         this._name = name
@@ -22,10 +23,10 @@ class user {
         this._email = email
         this.checkUser()
     }
-    get status(){
+    get status() {
         return this._status
     }
-    set status(status){
+    set status(status) {
         this._status = status
     }
     get tag() {
@@ -93,18 +94,33 @@ const submit = () => {
     newUserEmail.value = ''
 }
 
+const checkEmailPattern = (i,email) => {
+    if(/([^\W]+)@([^\W]+).([^\W]+)/i.test(email)){
+        Users.findUser(i).email = newEmail[i]
+        // return true
+    }
+    else{
+        newEmail[i] = ''
+        alert(`please enter email`)
+        // return false
+    }
+}
+
+//* dummy
 let user1 = new user('tester1', 'tester@t1')
 let user2 = new user('tester2', 'tester@t2')
 let user3 = new user('tester3', 'tester@t3')
 let user4 = new user('tester4', 'tester@t4')
 let user5 = new user('tester5', 'tester@t5')
 let user6 = new user('tester6')
+let user7 = new user('tester7')
 Users.addUser(user1)
 Users.addUser(user2)
 Users.addUser(user3)
 Users.addUser(user4)
 Users.addUser(user5)
 Users.addUser(user6)
+Users.addUser(user7)
 
 </script>
 
@@ -160,17 +176,17 @@ Users.addUser(user6)
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-6 py-2" v-if="user.status == 'Active'">{{ user.email }}</td>
+                                <td
+                                    class="px-6 py-2"
+                                    v-if="user.status == 'Active'"
+                                >{{ user.email }}</td>
                                 <td class="px-6 py-2" v-else>
                                     <input
                                         class="bg-gray-300 rounded-md p-1 pl-3 w-full"
                                         type="text"
                                         placeholder="Input Email"
-                                        @keydown.enter="()=> {
-                                            user.email = newEmail
-                                            newEmail = ''
-                                        }"
-                                        v-model="newEmail"
+                                        @keydown.enter="checkEmailPattern(i,newEmail[i])?'' : newEmail[i] = ''"
+                                        v-model="newEmail[i]"
                                     />
                                 </td>
                                 <td class="px-6 py-2">
