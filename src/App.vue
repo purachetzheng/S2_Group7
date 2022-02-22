@@ -1,7 +1,8 @@
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive } from 'vue';
 class user {
     constructor(name = '', email = '') {
+<<<<<<< HEAD
         this.#name = name
         this.#email = email
         this.#status = 'Active'
@@ -42,10 +43,40 @@ class user {
 const newUserName = ref('')
 const newUserEmail = ref('')
 let newUsers = new user()
+=======
+        this._name = name;
+        this._email = email;
+        this._status = 'Active';
+        this._tag = [];
+    }
+    get name() {
+        return this._name;
+    }
+    set name(name) {
+        this._name = name;
+    }
+    get email() {
+        return this._email;
+    }
+    set email(email) {
+        this._email = email;
+    }
+    get status() {
+        return this._status;
+    }
+}
+
+const newUserName = ref('');
+const newUserEmail = ref('');
+let editValue = ref(false);
+let tempValue = ref('');
+let newUsers = reactive(new user());
+>>>>>>> 48cb94a7f1d645e5e4a557e316cf1683197a5f7f
 
 let Users = reactive({
     users: [],
     addUser(user) {
+<<<<<<< HEAD
         Users.users.push(user)
     },
     delUser(name) {
@@ -96,6 +127,49 @@ Users.addUser(user4)
 Users.addUser(user5)
 Users.addUser(user6)
 
+=======
+        Users.users.push(user);
+    },
+    delUser(name) {
+        Users.users.splice(
+            Users.users.findIndex((ele) => ele.name == name),
+            1
+        );
+    },
+    editUser(name) {
+        tempValue.value = name;
+        console.log(tempValue.value);
+        editValue.value = true;
+    },
+});
+
+const summit = () => {
+    console.clear();
+    console.log('Enter Trigger !');
+    console.log(`Name: ${newUserName.value}`);
+    console.log(`Email: ${newUserEmail.value}`);
+    if (newUserName.value !== '' || newUserEmail.value !== '') {
+        console.log('Value Added !');
+        newUsers.name = newUserName.value;
+        newUsers.email = newUserEmail.value;
+        Users.addUser(newUsers);
+        newUsers = new user();
+        newUserEmail.value = '';
+        newUserName.value = '';
+    }
+};
+
+let user1 = new user('tester1', 'tester@t1');
+let user2 = new user('tester2', 'tester@t2');
+let user3 = new user('tester3', 'tester@t3');
+let user4 = new user('tester4', 'tester@t4');
+let user5 = new user('tester5', 'tester@t5');
+Users.addUser(user1);
+Users.addUser(user2);
+Users.addUser(user3);
+Users.addUser(user4);
+Users.addUser(user5);
+>>>>>>> 48cb94a7f1d645e5e4a557e316cf1683197a5f7f
 </script>
 
 <template>
@@ -141,6 +215,7 @@ Users.addUser(user6)
                             >
                                 <td class="px-6 py-2">
                                     <div class="flex items-center">
+<<<<<<< HEAD
                                         <!-- <div class="flex-shrink-0 h-10 w-10">
                                         <img
                                             class="h-10 w-10 rounded-full"
@@ -149,6 +224,20 @@ Users.addUser(user6)
                                         />
                                         </div>-->
                                         <div class>{{ user.name }}</div>
+=======
+                                        <!-- <div class="flex-shrink-0 h-10 w-10"></div> -->
+                                        <div v-if="!editValue">
+                                            <span>
+                                                {{ user.name }}
+                                            </span>
+                                        </div>
+                                        <div v-if="editValue">
+                                            <input
+                                                type="text"
+                                                v-model="user.name"
+                                            />
+                                        </div>
+>>>>>>> 48cb94a7f1d645e5e4a557e316cf1683197a5f7f
                                     </div>
                                 </td>
                                 <td class="px-6 py-2" v-if="user.email.length">{{ user.email }}</td>
@@ -166,8 +255,17 @@ Users.addUser(user6)
                                     >{{ user.status }}</span>
                                 </td>
                                 <td class="px-6 py-2">12 / 01 / 2022</td>
+
+                                <!-- Edit Button -->
                                 <td class="px-6 py-2">
+<<<<<<< HEAD
                                     <button class="btn-edit mr-2" @click="Users.delUser(user.name)">
+=======
+                                    <button
+                                        class="btn-edit mr-2"
+                                        @click="Users.editUser(user.name)"
+                                    >
+>>>>>>> 48cb94a7f1d645e5e4a557e316cf1683197a5f7f
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             class="h-5 w-5"
@@ -200,13 +298,19 @@ Users.addUser(user6)
                                     </button>
                                 </td>
                             </tr>
+
+                            <!-- Add New User Data -->
                             <tr>
                                 <td class="px-6 py-2">
                                     <input
                                         class="bg-gray-300 rounded-md p-1 pl-3 w-full"
                                         type="text"
                                         placeholder="Input Text"
+<<<<<<< HEAD
                                         @keydown.enter="submit"
+=======
+                                        @keydown.enter="summit"
+>>>>>>> 48cb94a7f1d645e5e4a557e316cf1683197a5f7f
                                         v-model="newUserName"
                                     />
                                 </td>
@@ -215,7 +319,11 @@ Users.addUser(user6)
                                         class="bg-gray-300 rounded-md p-1 pl-3 w-full"
                                         type="text"
                                         placeholder="Input Email"
+<<<<<<< HEAD
                                         @keydown.enter="submit"
+=======
+                                        @keydown.enter="summit"
+>>>>>>> 48cb94a7f1d645e5e4a557e316cf1683197a5f7f
                                         v-model="newUserEmail"
                                     />
                                 </td>
