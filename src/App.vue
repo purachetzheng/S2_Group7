@@ -158,7 +158,6 @@ Users.addUser(user6)
                                         type="text"
                                         placeholder="Input Email"
                                         @keydown.enter="Users.findUser(i,this.value)"
-                                        
                                     />
                                 </td>
                                 <td class="px-6 py-2">
