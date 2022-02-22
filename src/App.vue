@@ -1,49 +1,86 @@
 <script setup>
 import { ref, reactive } from 'vue'
 class user {
-  constructor(name = '', email = '') {
-    this._name = name
-    this._email = email
-    this._status = 'Active'
-    this._tag = []
-  }
-  get name() {
-    return this._name
-  }
-  set name(name) {
-    this._name = name
-  }
-  get email() {
-    return this._email
-  }
-  set email(email) {
-    this._email = email
-  }
+    constructor(name = '', email = '') {
+        this.#name = name
+        this.#email = email
+        this.#status = 'Active'
+        this.#tag = []
+    }
+    get name() {
+        return this.#name
+    }
+    set name(name) {
+        this.#name = name
+    }
+    get email() {
+        return this.#email
+    }
+    set email(email) {
+        this.#email = email
+    }
+    get status(){
+        return this.#status
+    }
+    set status(status){
+        this.#status = status
+    }
+    get tag(){
+        return this.#tag
+    }
+    // addTag(tag){
+    //     this.#tag.push(tag)
+    // }
+    // delTag(tag){
+    //     this.#tag.splice(
+    //         Users.users.findIndex(ele => ele.name == name),
+    //         1
+    //     )
+    // }
 }
 
 const newUserName = ref('')
-const newUserEmail= ref('')
-let newUsers = reactive(new user())
+const newUserEmail = ref('')
+let newUsers = new user()
 
 let Users = reactive({
-  users: [],
-  addUser(user) {
-    Users.users.push(user)
-  },
-  delUser(name) {
-    Users.users.splice(
-      Users.users.findIndex((ele) => ele.name == name),
-      1
-    )
-  },
+    users: [],
+    addUser(user) {
+        Users.users.push(user)
+    },
+    delUser(name) {
+        Users.users.splice(
+            Users.users.findIndex(ele => ele.name == name),
+            1
+        )
+    },
+    findUser(index,e){
+        console.log(Users.users.find((ele,i) => i == index))
+        console.log(e)
+        return Users.users.find((ele,i) => i == index)
+        // console.log('user_'+index)
+        // console.log(user_5.value)
+    },
+    setUserEmail(index){
+
+    },
+    checkUser(index){
+        if(Users.findUser(index).name == '' || Users.findUser(index).email == ''){
+            Users.findUser.status == 'incomplete'
+        }else{
+            Users.findUser.status == 'Active'
+        }
+    }
 })
 
-const summit = () => {
-  console.log('s')
-  newUsers.name = newUserName.value
-  newUsers.email = newUserEmail.value
-  Users.addUser(newUsers)
-  newUsers = new user()
+const submit = () => {
+    console.log('s')
+    newUsers.name = newUserName.value
+    newUsers.email = newUserEmail.value
+    Users.addUser(newUsers)
+    newUsers = new user()
+    newUserName.value = ''
+    newUserEmail.value = ''
 }
 
 let user1 = new user('tester1', 'tester@t1')
@@ -51,11 +88,14 @@ let user2 = new user('tester2', 'tester@t2')
 let user3 = new user('tester3', 'tester@t3')
 let user4 = new user('tester4', 'tester@t4')
 let user5 = new user('tester5', 'tester@t5')
+let user6 = new user('tester6')
 Users.addUser(user1)
 Users.addUser(user2)
 Users.addUser(user3)
 Users.addUser(user4)
 Users.addUser(user5)
+Users.addUser(user6)
+
 </script>
 
 <template>
@@ -75,33 +115,23 @@ Users.addUser(user5)
                                 <th
                                     scope="col"
                                     class="px-6 py-3 text-left text-xs tracking-wider tex"
-                                >
-                                    Name
-                                </th>
+                                >Name</th>
                                 <th
                                     scope="col"
                                     class="px-6 py-3 text-left text-xs tracking-wider"
-                                >
-                                    Email
-                                </th>
+                                >Email</th>
                                 <th
                                     scope="col"
                                     class="px-6 py-3 text-left text-xs tracking-wider"
-                                >
-                                    Status
-                                </th>
+                                >Status</th>
                                 <th
                                     scope="col"
                                     class="px-6 py-3 text-left text-xs tracking-wider"
-                                >
-                                    Add date
-                                </th>
+                                >Add date</th>
                                 <th
                                     scope="col"
                                     class="px-6 py-3 text-left text-xs tracking-wider"
-                                >
-                                    edit
-                                </th>
+                                >edit</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
@@ -117,26 +147,28 @@ Users.addUser(user5)
                                             src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60"
                                             alt=""
                                         />
-                                    </div> -->
-                                        <div class="">
-                                            {{ user.name }}
-                                        </div>
+                                        </div>-->
+                                        <div class>{{ user.name }}</div>
                                     </div>
                                 </td>
-                                <td class="px-6 py-2">{{ user.email }}</td>
+                                <td class="px-6 py-2" v-if="user.email.length">{{ user.email }}</td>
+                                <td class="px-6 py-2" v-else>
+                                    <input
+                                        class="bg-gray-300 rounded-md p-1 pl-3 w-full"
+                                        type="text"
+                                        placeholder="Input Email"
+                                        @keydown.enter="Users.findUser(i,this.value)"
+                                        
+                                    />
+                                </td>
                                 <td class="px-6 py-2">
                                     <span
                                         class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
-                                    >
-                                        {{ user.status }}
-                                    </span>
+                                    >{{ user.status }}</span>
                                 </td>
                                 <td class="px-6 py-2">12 / 01 / 2022</td>
                                 <td class="px-6 py-2">
-                                    <button
-                                        class="btn-edit mr-2"
-                                        @click="Users.delUser(user.name)"
-                                    >
+                                    <button class="btn-edit mr-2" @click="Users.delUser(user.name)">
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             class="h-5 w-5"
@@ -153,10 +185,7 @@ Users.addUser(user5)
                                             />
                                         </svg>
                                     </button>
-                                    <button
-                                        class="btn-del"
-                                        @click="Users.delUser(user.name)"
-                                    >
+                                    <button class="btn-del" @click="Users.delUser(user.name)">
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             class="h-5 w-5"
@@ -178,7 +207,8 @@ Users.addUser(user5)
                                         class="bg-gray-300 rounded-md p-1 pl-3 w-full"
                                         type="text"
                                         placeholder="Input Text"
-                                        @keydown.enter="summit" v-model="newUserName"
+                                        @keydown.enter="submit"
+                                        v-model="newUserName"
                                     />
                                 </td>
                                 <td class="px-6 py-2">
@@ -186,7 +216,8 @@ Users.addUser(user5)
                                         class="bg-gray-300 rounded-md p-1 pl-3 w-full"
                                         type="text"
                                         placeholder="Input Email"
-                                        @keydown.enter="summit" v-model="newUserEmail"
+                                        @keydown.enter="submit"
+                                        v-model="newUserEmail"
                                     />
                                 </td>
                                 <td></td>
@@ -199,16 +230,15 @@ Users.addUser(user5)
                 <!-- sidebar -->
                 <!-- <div class="bg-teal-500 p-10 sm:w-full lg:w-3/12">
                 <h2>sidebar</h2>
-            </div> -->
+                </div>-->
             </div>
         </div>
 
         <!-- footer -->
         <!-- <div class="p-10 bg-gray-500">
             <h2>footer</h2>
-        </div> -->
+        </div>-->
     </div>
-
 </template>
 
 <style>
