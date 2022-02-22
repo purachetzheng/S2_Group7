@@ -4,20 +4,23 @@ class user {
     constructor(name = '', email = '') {
         this._name = name
         this._email = email
-        this._status = 'Active'
+        this._status = ''
         this._tag = []
+        this.checkUser()
     }
     get name() {
         return this._name
     }
     set name(name) {
         this._name = name
+        this.checkUser()
     }
     get email() {
         return this._email
     }
     set email(email) {
         this._email = email
+        this.checkUser()
     }
     get status(){
         return this._status
@@ -25,7 +28,7 @@ class user {
     set status(status){
         this._status = status
     }
-    get tag(){
+    get tag() {
         return this._tag
     }
     // addTag(tag){
@@ -37,6 +40,13 @@ class user {
     //         1
     //     )
     // }
+    checkUser() {
+        if (this.name === '' || this.email === '') {
+            this.status = 'Incomplete'
+        } else {
+            this.status = 'Active'
+        }
+    }
 }
 
 const newUserName = ref('')
@@ -54,21 +64,21 @@ let Users = reactive({
             1
         )
     },
-    findUser(index,e){
-        console.log(Users.users.find((ele,i) => i == index))
+    findUser(index, e) {
+        console.log(Users.users.find((ele, i) => i == index))
         console.log(e)
-        return Users.users.find((ele,i) => i == index)
+        return Users.users.find((ele, i) => i == index)
         // console.log('user_'+index)
         // console.log(user_5.value)
     },
-    setUserEmail(index){
+    setUserEmail(index) {
 
     },
-    checkUser(index){
-        if(Users.findUser(index).name == '' || Users.findUser(index).email == ''){
-            Users.findUser.status == 'incomplete'
-        }else{
-            Users.findUser.status == 'Active'
+    checkUser(index) {
+        if (Users.findUser(index).name == '' || Users.findUser(index).email == '') {
+            Users.findUser.status = 'incomplete'
+        } else {
+            Users.findUser.status = 'Active'
         }
     }
 })
@@ -143,25 +153,24 @@ Users.addUser(user6)
                                     <div class="flex items-center">
                                         <!-- <div class="flex-shrink-0 h-10 w-10"></div> -->
                                         <div v-if="!editValue">
-                                            <span>
-                                                {{ user.name }}
-                                            </span>
+                                            <span>{{ user.name }}</span>
                                         </div>
                                         <div v-if="editValue">
-                                            <input
-                                                type="text"
-                                                v-model="user.name"
-                                            />
+                                            <input type="text" v-model="user.name" />
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-6 py-2" v-if="user.email.length">{{ user.email }}</td>
+                                <td class="px-6 py-2" v-if="user.status == 'Active'">{{ user.email }}</td>
                                 <td class="px-6 py-2" v-else>
                                     <input
                                         class="bg-gray-300 rounded-md p-1 pl-3 w-full"
                                         type="text"
                                         placeholder="Input Email"
-                                        @keydown.enter="Users.findUser(i,this.value)"
+                                        @keydown.enter="()=> {
+                                            user.email = newEmail
+                                            newEmail = ''
+                                        }"
+                                        v-model="newEmail"
                                     />
                                 </td>
                                 <td class="px-6 py-2">
