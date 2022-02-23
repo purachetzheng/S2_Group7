@@ -1,42 +1,4 @@
 <script setup>
-<<<<<<< HEAD
-import { ref, reactive } from 'vue'
-let newEmail = reactive([])
-class user {
-  constructor(name = '', email = '') {
-    this._name = name
-    this._email = email
-    this._status = ''
-    this._tag = []
-    this.checkUser()
-  }
-  get name() {
-    return this._name
-  }
-  set name(name) {
-    this._name = name
-    this.checkUser()
-  }
-  get email() {
-    return this._email
-  }
-  set email(email) {
-    if (checkEmailPattern(email)) {
-      this._email = email
-      this.checkUser()
-    } else {
-      alert(`please enter email`)
-    }
-  }
-  get status() {
-    return this._status
-  }
-  set status(status) {
-    this._status = status
-  }
-  get tag() {
-    return this._tag
-=======
 import { ref, reactive } from "vue";
 let newEmail = reactive([]);
 class User {
@@ -58,8 +20,12 @@ class User {
     return this._email;
   }
   set email(email) {
-    this._email = email;
-    this.checkUser();
+    if (checkEmailPattern(email)) {
+      this._email = email
+      this.checkUser()
+    } else {
+      alert(`please enter email`)
+    }
   }
   get status() {
     return this._status;
@@ -69,7 +35,6 @@ class User {
   }
   get tag() {
     return this._tag;
->>>>>>> main
   }
   // addTag(tag){
   //     this._tag.push(tag)
@@ -81,84 +46,39 @@ class User {
   //     )
   // }
   checkUser() {
-<<<<<<< HEAD
-    if (this.name === '' || this.email === '') {
-      this.status = 'Incomplete'
-    } else {
-      this.status = 'Active'
-=======
     if (this.name === "" || this.email === "") {
       this.status = "Incomplete";
     } else {
       this.status = "Active";
->>>>>>> main
     }
   }
 }
 
-<<<<<<< HEAD
-const newUserName = ref('')
-const newUserEmail = ref('')
-let newUsers = new user()
-=======
 const newUserName = ref("");
 const newUserEmail = ref("");
 let newUsers = new User();
->>>>>>> main
 
 let Users = reactive({
   users: [],
   addUser(user) {
-<<<<<<< HEAD
-    Users.users.push(user)
-=======
-    Users.users.push(user);
->>>>>>> main
+    if(checkEmailPattern(user.email)){
+      Users.users.push(user);
+    }
   },
   delUser(name) {
     Users.users.splice(
       Users.users.findIndex((ele) => ele.name == name),
       1
-<<<<<<< HEAD
-    )
-  },
-  findUser(index, e) {
-    console.log(Users.users.find((ele, i) => i == index))
-    console.log(e)
-    return Users.users.find((ele, i) => i == index)
-=======
     );
   },
   findUser(index, e) {
     console.log(Users.users.find((ele, i) => i == index));
     console.log(e);
     return Users.users.find((ele, i) => i == index);
->>>>>>> main
     // console.log('user_'+index)
     // console.log(user_5.value)
   },
   checkUser(index) {
-<<<<<<< HEAD
-    if (Users.findUser(index).name == '' || Users.findUser(index).email == '') {
-      Users.findUser.status = 'incomplete'
-    } else {
-      Users.findUser.status = 'Active'
-    }
-  },
-})
-
-const submit = () => {
-  console.log('s')
-  if (newUserEmail.value != '' || newUserName.value != '') {
-    newUsers.name = newUserName.value
-    newUsers.email = newUserEmail.value
-    Users.addUser(newUsers)
-    newUsers = new user()
-    newUserName.value = ''
-    newUserEmail.value = ''
-  }
-}
-=======
     if (Users.findUser(index).name == "" || Users.findUser(index).email == "") {
       Users.findUser.status = "incomplete";
     } else {
@@ -174,22 +94,12 @@ const submit = () => {
     newUsers.email = newUserEmail.value;
     Users.addUser(newUsers);
     newUsers = new User();
-    newUserName.value = "";
+    if(checkEmailPattern(newUserEmail.value)){
+      newUserName.value = "";
+    }
     newUserEmail.value = "";
   }
 };
-
-const checkEmailPattern = (i, email) => {
-  if (/([^\W]+)@([^\W]+).([^\W]+)/i.test(email)) {
-    Users.findUser(i).email = newEmail[i];
-    // return true
-  } else {
-    newEmail[i] = "";
-    alert(`please enter email`);
-    // return false
-  }
-};
->>>>>>> main
 
 const checkEmailPattern = (email) => {
   if (/([^\W]+)@([^\W]+).([^\W]+)/i.test(email)) {
@@ -197,34 +107,20 @@ const checkEmailPattern = (email) => {
   } else {
     return false
   }
-}
+};
+
 // const checkEmailPattern = (i, email) => {
 //   if (/([^\W]+)@([^\W]+).([^\W]+)/i.test(email)) {
-//     Users.findUser(i).email = newEmail[i]
+//     Users.findUser(i).email = newEmail[i];
 //     // return true
 //   } else {
-//     newEmail[i] = ''
-//     alert(`please enter email`)
+//     newEmail[i] = "";
+//     alert(`please enter email`);
 //     // return false
 //   }
-// }
+// };
+
 //* dummy
-<<<<<<< HEAD
-let user1 = new user('TestDummy1', 'TestDummy@t1.com')
-let user2 = new user('TestDummy2', 'TestDummy@t2.com')
-let user3 = new user('TestDummy3', 'TestDummy@t3.com')
-let user4 = new user('TestDummy4', 'TestDummy@t4.com')
-let user5 = new user('TestDummy5', 'TestDummy@t5.com')
-let user6 = new user('TestDummy6')
-let user7 = new user('TestDummy7')
-Users.addUser(user1)
-Users.addUser(user2)
-Users.addUser(user3)
-Users.addUser(user4)
-Users.addUser(user5)
-Users.addUser(user6)
-Users.addUser(user7)
-=======
 let user1 = new User("TestDummy1", "TestDummy@t1.com");
 let user2 = new User("TestDummy2", "TestDummy@t2.com");
 let user3 = new User("TestDummy3", "TestDummy@t3.com");
@@ -239,7 +135,6 @@ Users.addUser(user4);
 Users.addUser(user5);
 Users.addUser(user6);
 Users.addUser(user7);
->>>>>>> main
 </script>
 
 <template>
@@ -290,14 +185,9 @@ Users.addUser(user7);
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
               <tr
-<<<<<<< HEAD
-                class="transition ease-in-out duration-300 hover:bg-gray-200"
-                v-for="(user, i) in Users.users"
-=======
                 v-for="(user, i) in Users.users"
                 :key="i"
                 class="transition ease-in-out duration-300 hover:bg-gray-200"
->>>>>>> main
               >
                 <td class="px-6 py-2">
                   <div class="flex items-center">
@@ -306,17 +196,6 @@ Users.addUser(user7);
                       <span>{{ user.name }}</span>
                     </div>
                     <div v-if="editValue">
-<<<<<<< HEAD
-                      <input type="text" v-model="user.name" />
-                    </div>
-                  </div>
-                </td>
-                <td class="px-6 py-2" v-if="user.status == 'Active'">
-                  {{ user.email }}
-                </td>
-                <td class="px-6 py-2" v-else>
-                  <input
-=======
                       <input v-model="user.name" type="text" />
                     </div>
                   </div>
@@ -327,19 +206,10 @@ Users.addUser(user7);
                 <td v-else class="px-6 py-2">
                   <input
                     v-model="newEmail[i]"
->>>>>>> main
                     class="bg-gray-300 rounded-md p-1 pl-3 w-full"
                     type="text"
                     placeholder="Input Email"
-                    @keydown.enter="
-                      checkEmailPattern(i, newEmail[i])
-                        ? ''
-                        : (newEmail[i] = '')
-                    "
-<<<<<<< HEAD
-                    v-model="newEmail[i]"
-=======
->>>>>>> main
+                    @keydown.enter="user.email=newEmail[i]"
                   />
                 </td>
                 <td class="px-6 py-2">
@@ -401,34 +271,20 @@ Users.addUser(user7);
               <tr>
                 <td class="px-6 py-2">
                   <input
-<<<<<<< HEAD
-=======
                     v-model="newUserName"
->>>>>>> main
                     class="bg-gray-300 rounded-md p-1 pl-3 w-full"
                     type="text"
                     placeholder="Input Text"
                     @keydown.enter="submit"
-<<<<<<< HEAD
-                    v-model="newUserName"
-=======
->>>>>>> main
                   />
                 </td>
                 <td class="px-6 py-2">
                   <input
-<<<<<<< HEAD
-=======
                     v-model="newUserEmail"
->>>>>>> main
                     class="bg-gray-300 rounded-md p-1 pl-3 w-full"
                     type="text"
                     placeholder="Input Email"
                     @keydown.enter="submit"
-<<<<<<< HEAD
-                    v-model="newUserEmail"
-=======
->>>>>>> main
                   />
                 </td>
                 <td></td>
