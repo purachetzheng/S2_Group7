@@ -1,4 +1,6 @@
 date
-fix can't input only email (can input only name but will get "Incomplete" in status)
-total user with computed func in obj Users
-Tag system(used for specifying the type or multiple group)
+- Fix can't input only email (can input only name but will get "Incomplete" in status) 
+- Total user with computed func in obj Users
+- Tag system (used for specifying the type or multiple group)
+- Sorting Feature
+- Add Date Feature
