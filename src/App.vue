@@ -24,7 +24,7 @@ class User {
       this._email = email
       this.checkUser()
     } else {
-      alert(`please enter email`)
+      if(email.length !== 0) alert(`please enter email`)
     }
   }
   get status() {
@@ -94,9 +94,7 @@ const submit = () => {
     newUsers.email = newUserEmail.value;
     Users.addUser(newUsers);
     newUsers = new User();
-    if(checkEmailPattern(newUserEmail.value)){
-      newUserName.value = "";
-    }
+    if(checkEmailPattern(newUserEmail.value)) newUserName.value = "";
     newUserEmail.value = "";
   }
 };
