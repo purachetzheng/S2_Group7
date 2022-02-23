@@ -20,8 +20,12 @@ class user {
     return this._email
   }
   set email(email) {
-    this._email = email
-    this.checkUser()
+    if (checkEmailPattern(email)) {
+      this._email = email
+      this.checkUser()
+    } else {
+      alert(`please enter email`)
+    }
   }
   get status() {
     return this._status
@@ -72,7 +76,6 @@ let Users = reactive({
     // console.log('user_'+index)
     // console.log(user_5.value)
   },
-  setUserEmail(index) {},
   checkUser(index) {
     if (Users.findUser(index).name == '' || Users.findUser(index).email == '') {
       Users.findUser.status = 'incomplete'
@@ -94,17 +97,23 @@ const submit = () => {
   }
 }
 
-const checkEmailPattern = (i, email) => {
+const checkEmailPattern = (email) => {
   if (/([^\W]+)@([^\W]+).([^\W]+)/i.test(email)) {
-    Users.findUser(i).email = newEmail[i]
-    // return true
+    return true
   } else {
-    newEmail[i] = ''
-    alert(`please enter email`)
-    // return false
+    return false
   }
 }
-
+// const checkEmailPattern = (i, email) => {
+//   if (/([^\W]+)@([^\W]+).([^\W]+)/i.test(email)) {
+//     Users.findUser(i).email = newEmail[i]
+//     // return true
+//   } else {
+//     newEmail[i] = ''
+//     alert(`please enter email`)
+//     // return false
+//   }
+// }
 //* dummy
 let user1 = new user('TestDummy1', 'TestDummy@t1.com')
 let user2 = new user('TestDummy2', 'TestDummy@t2.com')
