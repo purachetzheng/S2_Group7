@@ -123,19 +123,6 @@ Users.addUser(user4);
 Users.addUser(user5);
 Users.addUser(user6);
 Users.addUser(user7);
-
-let user1 = new user('tester1', 'tester@t1');
-let user2 = new user('tester2', 'tester@t2');
-let user3 = new user('tester3', 'tester@t3');
-let user4 = new user('tester4', 'tester@t4');
-let user5 = new user('tester5', 'tester@t5');
-let user6 = new user('tester6');
-Users.addUser(user1);
-Users.addUser(user2);
-Users.addUser(user3);
-Users.addUser(user4);
-Users.addUser(user5);
-Users.addUser(user6);
 </script>
 
 <template>
@@ -222,9 +209,18 @@ Users.addUser(user6);
                                         v-model="newEmail[i]"
                                     />
                                 </td>
+                                <!-- px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 -->
                                 <td class="px-6 py-2">
                                     <span
-                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
+                                        :class="[
+                                            user.status == 'Active'
+                                                ? [
+                                                      'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800',
+                                                  ]
+                                                : [
+                                                      'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800',
+                                                  ],
+                                        ]"
                                         >{{ user.status }}</span
                                     >
                                 </td>
