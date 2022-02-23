@@ -1,23 +1,27 @@
 <script setup>
 import { ref, reactive } from 'vue';
+let newEmail = reactive([]);
 class user {
     constructor(name = '', email = '') {
         this._name = name;
         this._email = email;
-        this._status = 'Active';
+        this._status = '';
         this._tag = [];
+        this.checkUser();
     }
     get name() {
         return this._name;
     }
     set name(name) {
         this._name = name;
+        this.checkUser();
     }
     get email() {
         return this._email;
     }
     set email(email) {
         this._email = email;
+        this.checkUser();
     }
     get status() {
         return this._status;
@@ -37,6 +41,13 @@ class user {
     //         1
     //     )
     // }
+    checkUser() {
+        if (this.name === '' || this.email === '') {
+            this.status = 'Incomplete';
+        } else {
+            this.status = 'Active';
+        }
+    }
 }
 
 const newUserName = ref('');
@@ -67,9 +78,9 @@ let Users = reactive({
             Users.findUser(index).name == '' ||
             Users.findUser(index).email == ''
         ) {
-            Users.findUser.status == 'incomplete';
+            Users.findUser.status = 'incomplete';
         } else {
-            Users.findUser.status == 'Active';
+            Users.findUser.status = 'Active';
         }
     },
 });
@@ -85,6 +96,33 @@ const submit = () => {
         newUserEmail.value = '';
     }
 };
+
+const checkEmailPattern = (i, email) => {
+    if (/([^\W]+)@([^\W]+).([^\W]+)/i.test(email)) {
+        Users.findUser(i).email = newEmail[i];
+        // return true
+    } else {
+        newEmail[i] = '';
+        alert(`please enter email`);
+        // return false
+    }
+};
+
+//* dummy
+let user1 = new user('tester1', 'tester@t1');
+let user2 = new user('tester2', 'tester@t2');
+let user3 = new user('tester3', 'tester@t3');
+let user4 = new user('tester4', 'tester@t4');
+let user5 = new user('tester5', 'tester@t5');
+let user6 = new user('tester6');
+let user7 = new user('tester7');
+Users.addUser(user1);
+Users.addUser(user2);
+Users.addUser(user3);
+Users.addUser(user4);
+Users.addUser(user5);
+Users.addUser(user6);
+Users.addUser(user7);
 
 let user1 = new user('tester1', 'tester@t1');
 let user2 = new user('tester2', 'tester@t2');
@@ -155,9 +193,7 @@ Users.addUser(user6);
                                     <div class="flex items-center">
                                         <!-- <div class="flex-shrink-0 h-10 w-10"></div> -->
                                         <div v-if="!editValue">
-                                            <span>
-                                                {{ user.name }}
-                                            </span>
+                                            <span>{{ user.name }}</span>
                                         </div>
                                         <div v-if="editValue">
                                             <input
@@ -167,7 +203,10 @@ Users.addUser(user6);
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-6 py-2" v-if="user.email.length">
+                                <td
+                                    class="px-6 py-2"
+                                    v-if="user.status == 'Active'"
+                                >
                                     {{ user.email }}
                                 </td>
                                 <td class="px-6 py-2" v-else>
@@ -176,8 +215,11 @@ Users.addUser(user6);
                                         type="text"
                                         placeholder="Input Email"
                                         @keydown.enter="
-                                            Users.findUser(i, this.value)
+                                            checkEmailPattern(i, newEmail[i])
+                                                ? ''
+                                                : (newEmail[i] = '')
                                         "
+                                        v-model="newEmail[i]"
                                     />
                                 </td>
                                 <td class="px-6 py-2">
