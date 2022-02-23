@@ -61,7 +61,7 @@ let newUsers = new User();
 let Users = reactive({
   users: [],
   addUser(user) {
-    if(checkEmailPattern(user.email)){
+    if(checkEmailPattern(user.email) || user.email.length === 0){
       Users.users.push(user);
     }
   },
@@ -101,6 +101,7 @@ const submit = () => {
   }
 };
 
+//new way make code look better
 const checkEmailPattern = (email) => {
   if (/([^\W]+)@([^\W]+).([^\W]+)/i.test(email)) {
     return true
@@ -109,14 +110,13 @@ const checkEmailPattern = (email) => {
   }
 };
 
+//old way to change(hard code)
 // const checkEmailPattern = (i, email) => {
 //   if (/([^\W]+)@([^\W]+).([^\W]+)/i.test(email)) {
 //     Users.findUser(i).email = newEmail[i];
-//     // return true
 //   } else {
 //     newEmail[i] = "";
 //     alert(`please enter email`);
-//     // return false
 //   }
 // };
 
