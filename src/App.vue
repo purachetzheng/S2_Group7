@@ -107,11 +107,11 @@ const checkEmailPattern = (i,email) => {
 }
 
 //* dummy
-let user1 = new user('tester1', 'tester@t1')
-let user2 = new user('tester2', 'tester@t2')
-let user3 = new user('tester3', 'tester@t3')
-let user4 = new user('tester4', 'tester@t4')
-let user5 = new user('tester5', 'tester@t5')
+let user1 = new user('tester1', 'tester@t1.com')
+let user2 = new user('tester2', 'tester@t2.com')
+let user3 = new user('tester3', 'tester@t3.com')
+let user4 = new user('tester4', 'tester@t4.com')
+let user5 = new user('tester5', 'tester@t5.com')
 let user6 = new user('tester6')
 let user7 = new user('tester7')
 Users.addUser(user1)
