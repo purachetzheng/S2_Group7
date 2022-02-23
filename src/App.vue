@@ -109,6 +109,7 @@ const checkEmailPattern = (i, email) => {
 };
 
 //* dummy
+<<<<<<< HEAD
 let user1 = new user('TestDummy1', 'TestDummy@t1.com');
 let user2 = new user('TestDummy2', 'TestDummy@t2.com');
 let user3 = new user('TestDummy3', 'TestDummy@t3.com');
@@ -123,6 +124,23 @@ Users.addUser(user4);
 Users.addUser(user5);
 Users.addUser(user6);
 Users.addUser(user7);
+=======
+let user1 = new user('tester1', 'tester@t1.com')
+let user2 = new user('tester2', 'tester@t2.com')
+let user3 = new user('tester3', 'tester@t3.com')
+let user4 = new user('tester4', 'tester@t4.com')
+let user5 = new user('tester5', 'tester@t5.com')
+let user6 = new user('tester6')
+let user7 = new user('tester7')
+Users.addUser(user1)
+Users.addUser(user2)
+Users.addUser(user3)
+Users.addUser(user4)
+Users.addUser(user5)
+Users.addUser(user6)
+Users.addUser(user7)
+
+>>>>>>> dev-big
 </script>
 
 <template>
