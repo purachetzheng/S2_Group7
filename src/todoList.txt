@@ -4,3 +4,4 @@ date
 - Tag system (used for specifying the type or multiple group)
 - Sorting Feature
 - Add Date Feature
+- Undo
