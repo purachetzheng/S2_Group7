@@ -2,11 +2,11 @@
 import { ref, reactive } from "vue";
 let newEmail = reactive([]);
 class User {
-  constructor(name = "", email = "") {
+  constructor(name = "", email = "", tag = []) {
     this._name = name;
     this._email = email;
     this._status = "";
-    this._tag = [];
+    this._tag = tag;
     this.checkUser();
   }
   get name() {
@@ -150,11 +150,11 @@ const checkEmailPattern = (email) => {
 // };
 
 //* dummy
-let user1 = new User("TestDummy1", "TestDummy@t1.com");
-let user2 = new User("TestDummy2", "TestDummy@t2.com");
-let user3 = new User("TestDummy3", "TestDummy@t3.com");
-let user4 = new User("TestDummy4", "TestDummy@t4.com");
-let user5 = new User("TestDummy5", "TestDummy@t5.com");
+let user1 = new User("TestDummy1", "TestDummy@t1.com", ['INT999_G1','INT888_G2']);
+let user2 = new User("TestDummy2", "TestDummy@t2.com", ['INT999_G1','INT888_G3']);
+let user3 = new User("TestDummy3", "TestDummy@t3.com", ['INT999_G2','INT888_G1']);
+let user4 = new User("TestDummy4", "TestDummy@t4.com", ['INT999_G2','INT888_G3']);
+let user5 = new User("TestDummy5", "TestDummy@t5.com", ['INT999_G1','INT888_G2']);
 let user6 = new User("TestDummy6");
 let user7 = new User("TestDummy7");
 Users.addUser(user1);
@@ -191,6 +191,12 @@ Users.addUser(user7);
                   class="px-6 py-3 text-left text-xs tracking-wider"
                 >
                   Email
+                </th>
+                <th
+                  scope="col"
+                  class="px-6 py-3 text-left text-xs tracking-wider"
+                >
+                  Tag
                 </th>
                 <th
                   scope="col"
@@ -240,6 +246,11 @@ Users.addUser(user7);
                     placeholder="Input Email"
                     @keydown.enter="user.email=newEmail[i]"
                   />
+                </td>
+                <!-- Tag -->
+                <td class="px-6 py-2">
+                  <button class="px-2 mx-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-blue-800" v-for="(tag, j) in user.tag">{{tag}} </button>
+                  <button class="btn px-2 mx-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-blue-800">+</button>
                 </td>
                 <td class="px-6 py-2">
                   <span
@@ -316,6 +327,7 @@ Users.addUser(user7);
                     @keydown.enter="submit"
                   />
                 </td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
