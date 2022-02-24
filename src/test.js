@@ -27,3 +27,5 @@ class user{
   let user5 = new user('tester5', 'tester@t5')
 
   console.log(user1)
+  console.log(false||false&&true)
+  console.log(false||true&&false)

@@ -24,7 +24,7 @@ class User {
       this._email = email
       this.checkUser()
     } else {
-      if(email.length !== 0) alert(`please enter email`)
+      if(email.length !== 0) alert(`Please enter a valid email`)
     }
   }
   get status() {
@@ -86,18 +86,49 @@ let Users = reactive({
     }
   },
 });
-
 const submit = () => {
-  console.log("s");
-  if (newUserEmail.value != "" || newUserName.value != "") {
+  const isNameEmpty = newUserName.value.length === 0
+  const isEmailEmpty = newUserEmail.value.length === 0
+  const isEmailCorrect = checkEmailPattern(newUserEmail.value)
+  if (isEmailCorrect || isEmailEmpty && !isNameEmpty) {
     newUsers.name = newUserName.value;
     newUsers.email = newUserEmail.value;
     Users.addUser(newUsers);
     newUsers = new User();
-    if(checkEmailPattern(newUserEmail.value)) newUserName.value = "";
+    newUserName.value = "";
     newUserEmail.value = "";
   }
+  else if(!isEmailCorrect && !isNameEmpty) {
+    alert(`Please enter a valid email`)
+    newUserEmail.value = "";  
+  }
+  else if(isNameEmpty){
+    alert(`Please enter at least your name.`)
+  }
+  
 };
+
+// const submit = () => {
+//   console.log("s");
+//   if (newUserEmail.value != "" || newUserName.value != "") {
+//     newUsers.name = newUserName.value;
+//     newUsers.email = newUserEmail.value;
+//     Users.addUser(newUsers);
+//     newUsers = new User();
+//     if(checkEmailPattern(newUserEmail.value)) newUserName.value = "";
+//     newUserEmail.value = "";
+//   }
+
+//   // if(checkEmailPattern(newUserEmail.value) || newUserEmail.value.length === 0) {
+//   //     newUsers.name = newUserName.value;
+//   //     newUsers.email = newUserEmail.value;
+//   //     Users.addUser(newUsers);
+//   //     newUsers = new User();
+//   //     newUserName.value = "";
+//   //   }
+    
+//   //   newUserEmail.value = "";
+// };
 
 //new way make code look better
 const checkEmailPattern = (email) => {
@@ -114,7 +145,7 @@ const checkEmailPattern = (email) => {
 //     Users.findUser(i).email = newEmail[i];
 //   } else {
 //     newEmail[i] = "";
-//     alert(`please enter email`);
+//     alert(`Please enter a valid email`);
 //   }
 // };
 
@@ -185,7 +216,7 @@ Users.addUser(user7);
               <tr
                 v-for="(user, i) in Users.users"
                 :key="i"
-                class="transition ease-in-out duration-300 hover:bg-gray-200"
+                class="transition ease-in-out duration-300 hover:bg-gray-200 text-black"
               >
                 <td class="px-6 py-2">
                   <div class="flex items-center">
@@ -270,7 +301,7 @@ Users.addUser(user7);
                 <td class="px-6 py-2">
                   <input
                     v-model="newUserName"
-                    class="bg-gray-300 rounded-md p-1 pl-3 w-full"
+                    class="bg-gray-300 rounded-md p-1 pl-3 w-full text-black"
                     type="text"
                     placeholder="Input Text"
                     @keydown.enter="submit"
@@ -279,7 +310,7 @@ Users.addUser(user7);
                 <td class="px-6 py-2">
                   <input
                     v-model="newUserEmail"
-                    class="bg-gray-300 rounded-md p-1 pl-3 w-full"
+                    class="bg-gray-300 rounded-md p-1 pl-3 w-full text-black"
                     type="text"
                     placeholder="Input Email"
                     @keydown.enter="submit"
