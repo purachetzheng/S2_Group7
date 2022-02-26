@@ -6,6 +6,11 @@ let newTag = reactive([]);
 let editValue = false
 let newUsers =  reactive({name: '', email: '', status: ''})
 
+const dateAdd = () => {
+  return new Date().toLocaleDateString("th-TH") 
+  // หรือ new Date().toLocaleString("th-TH").substring(0, 10)
+}
+
 if(JSON.parse(localStorage.getItem("users")) == null) localStorage.setItem("users", JSON.stringify([]))
 
 let Users = reactive({
@@ -17,6 +22,7 @@ let Users = reactive({
       status: user.email.length===0? 'Incomplete':'Active',
       tag: [],
       //? date: (hint)ไปสร้าง func ที่ return วันเวลาตามรูปแบบ ว/ด/ป แล้วเอามาเรียกตรงนี้
+      date: dateAdd()
     });
     this.setLocalStorage()
   },
@@ -199,7 +205,7 @@ const test = (i) => {
                     >{{ user.status }}</span
                   >
                 </td>
-                <td class="px-6 py-2">12 / 01 / 2022</td>
+                <td class="px-6 py-2">{{user.date}}</td>
 
                 <!-- Edit Button -->
                 <td class="px-6 py-2">
