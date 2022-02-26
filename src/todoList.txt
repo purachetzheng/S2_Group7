@@ -1,7 +1,19 @@
-date
-- Fix can't input only email (can input only name but will get "Incomplete" in status) 
+- add date (new Date() แปลงเวลามาเป็นรูปแบบพื้นฐาน d/m/y แล้วเอาไปเก็บใน user ตัวนั้นใน array users)
+- (Fixed)Fix can't input only email (can input only name but will get "Incomplete" in status) 
 - Total user with computed func in obj Users
 - Tag system (used for specifying the type or multiple group)
 - Sorting Feature
 - Add Date Feature
-- Undo
+- ทำปุ่ม x ที่ tag แต่ละตัว (ใช้ mouseenter เมื่อลากเมาส์เข้ามาจะขึ้นให้กดลบ tag นั้นได้ ลากเมาส์ออก x หาย)
+- คลิกที่ tag แต่ละตัวเพื่อ grouping
+
+ที่ยังไม่เสร็จ และควรจะใช้ในรอบการส่งวันที่ 28
+- add date
+- edit
+- total user
+- ปรับปรุง css ของ tag system
+- (option) การ sorting ตาม column
+
+ส่งรอบที่ 2 (idea)
+- สามารถมีได้หลาย ๆ ตาราง 
+- แยกข้อมูลในตารางโดยเงื่อนไขต่าง ๆ หรือ copy ทั้งตาราง
