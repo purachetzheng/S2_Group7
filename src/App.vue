@@ -2,171 +2,82 @@
 import { ref, reactive } from "vue";
 let newEmail = reactive([]);
 let newTag = reactive([]);
+//ใส่ไว้ก่อน แก้ warning ดู console ยาก
 let editValue = false
-class User {
-  constructor(name = "", email = "", tag = []) {
-    this._name = name;
-    this._email = email;
-    this._status = "";
-    this._tag = tag;
-    this.checkUser();
-  }
-  get name() {
-    return this._name;
-  }
-  set name(name) {
-    this._name = name;
-    this.checkUser();
-  }
-  get email() {
-    return this._email;
-  }
-  set email(email) {
-    if (checkEmailPattern(email)) {
-      this._email = email
-      this.checkUser()
-    } else {
-      if(email.length !== 0) alert(`Please enter a valid email`)
-    }
-  }
-  get status() {
-    return this._status;
-  }
-  set status(status) {
-    this._status = status;
-  }
-  get tag() {
-    return this._tag;
-  }
-  addTag(tag){
-      this._tag.push(tag)
-  }
-  // delTag(tag){
-  //     this._tag.splice(
-  //         Users.users.findIndex(ele => ele.name == name),
-  //         1
-  //     )
-  // }
-  checkUser() {
-    if (this.name === "" || this.email === "") {
-      this.status = "Incomplete";
-    } else {
-      this.status = "Active";
-    }
-  }
-}
+let newUsers =  reactive({name: '', email: '', status: ''})
 
-const newUserName = ref("");
-const newUserEmail = ref("");
-let newUsers = new User();
+if(JSON.parse(localStorage.getItem("users")) == null) localStorage.setItem("users", JSON.stringify([]))
 
 let Users = reactive({
-  users: [],
+  users: JSON.parse(localStorage.getItem("users")),
   addUser(user) {
-    if(checkEmailPattern(user.email) || user.email.length === 0){
-      Users.users.push(user);
-    }
+    this.users.push({
+      name: user.name,
+      email: user.email,
+      status: user.email.length===0? 'Incomplete':'Active',
+      tag: [],
+      //? date: (hint)ไปสร้าง func ที่ return วันเวลาตามรูปแบบ ว/ด/ป แล้วเอามาเรียกตรงนี้
+    });
+    this.setLocalStorage()
   },
   delUser(name) {
-    Users.users.splice(
-      Users.users.findIndex((ele) => ele.name == name),
-      1
+    this.users.splice(
+      this.users.findIndex((ele) => ele.name == name),1
     );
+    this.setLocalStorage()
   },
-  findUser(index, e) {
-    console.log(Users.users.find((ele, i) => i == index));
-    console.log(e);
-    return Users.users.find((ele, i) => i == index);
-    // console.log('user_'+index)
-    // console.log(user_5.value)
+  findUser(index) {
+    return this.users.find((ele, i) => i == index);
   },
   checkUser(index) {
-    if (Users.findUser(index).name == "" || Users.findUser(index).email == "") {
-      Users.findUser.status = "incomplete";
-    } else {
-      Users.findUser.status = "Active";
-    }
+    const user = this.findUser(index)
+    const isNameEmpty = user.name.length === 0
+    const isEmailEmpty = user.email.length === 0
+    user.status = isNameEmpty || isEmailEmpty ? "incomplete" : "Active"
   },
-});
+  setEmail(index, email){
+    const user = this.findUser(index)
+    const isEmailCorrect = checkEmailPattern(email)
+    isEmailCorrect ? user.email = email : alert(`Please enter a valid email`)
+    this.checkUser(index)
+    this.setLocalStorage()
+  },
+  addTag(index, newTag){
+    const user = this.findUser(index)
+    user.tag.push(newTag)
+    this.setLocalStorage()
+  },
+  setLocalStorage(){
+    localStorage.setItem("users", JSON.stringify(this.users))
+  }
+})
+
 const submit = () => {
-  const isNameEmpty = newUserName.value.length === 0
-  const isEmailEmpty = newUserEmail.value.length === 0
-  const isEmailCorrect = checkEmailPattern(newUserEmail.value)
-  if (isEmailCorrect || isEmailEmpty && !isNameEmpty) {
-    newUsers.name = newUserName.value;
-    newUsers.email = newUserEmail.value;
-    Users.addUser(newUsers);
-    newUsers = new User();
-    newUserName.value = "";
-    newUserEmail.value = "";
-  }
-  else if(!isEmailCorrect && !isNameEmpty) {
-    alert(`Please enter a valid email`)
-    newUserEmail.value = "";  
-  }
-  else if(isNameEmpty){
+  const isNameEmpty = newUsers.name.length === 0
+  const isEmailEmpty = newUsers.email.length === 0
+  const isEmailCorrect = checkEmailPattern(newUsers.email)
+  if(isNameEmpty){
     alert(`Please enter at least your name.`)
   }
-  
+  else if(isEmailCorrect || isEmailEmpty) {
+    Users.addUser(newUsers);
+    newUsers.name = '';
+    newUsers.email = '';
+  }
+  else if(!isEmailCorrect) {
+    alert(`Please enter a valid email`)
+    newUsers.email = '';
+  }
 };
 
-// const submit = () => {
-//   console.log("s");
-//   if (newUserEmail.value != "" || newUserName.value != "") {
-//     newUsers.name = newUserName.value;
-//     newUsers.email = newUserEmail.value;
-//     Users.addUser(newUsers);
-//     newUsers = new User();
-//     if(checkEmailPattern(newUserEmail.value)) newUserName.value = "";
-//     newUserEmail.value = "";
-//   }
-
-//   // if(checkEmailPattern(newUserEmail.value) || newUserEmail.value.length === 0) {
-//   //     newUsers.name = newUserName.value;
-//   //     newUsers.email = newUserEmail.value;
-//   //     Users.addUser(newUsers);
-//   //     newUsers = new User();
-//   //     newUserName.value = "";
-//   //   }
-    
-//   //   newUserEmail.value = "";
-// };
-
-//new way make code look better
 const checkEmailPattern = (email) => {
-  if (/([^\W]+)@([^\W]+).([^\W]+)/i.test(email)) {
+  if (/\S+@\S+\.\S+/i.test(email)) {
     return true
   } else {
     return false
   }
 };
 
-//old way to change(hard code)
-// const checkEmailPattern = (i, email) => {
-//   if (/([^\W]+)@([^\W]+).([^\W]+)/i.test(email)) {
-//     Users.findUser(i).email = newEmail[i];
-//   } else {
-//     newEmail[i] = "";
-//     alert(`Please enter a valid email`);
-//   }
-// };
-
-//* dummy
-let user1 = new User("TestDummy1", "TestDummy@t1.com", ['INT999_G1','INT888_G2']);
-let user2 = new User("TestDummy2", "TestDummy@t2.com", ['INT999_G1','INT888_G3']);
-let user3 = new User("TestDummy3", "TestDummy@t3.com", ['INT999_G2','INT888_G1']);
-let user4 = new User("TestDummy4", "TestDummy@t4.com", ['INT999_G2','INT888_G3']);
-let user5 = new User("TestDummy5", "TestDummy@t5.com", ['INT999_G1','INT888_G2']);
-let user6 = new User("TestDummy6");
-let user7 = new User("TestDummy7");
-Users.addUser(user1);
-Users.addUser(user2);
-Users.addUser(user3);
-Users.addUser(user4);
-Users.addUser(user5);
-Users.addUser(user6);
-Users.addUser(user7);
-// for test func
 const test = (i) => {
   alert('This is Test')
 }
@@ -241,7 +152,7 @@ const test = (i) => {
                     </div>
                   </div>
                 </td>
-                <td v-if="user.status == 'Active'" class="px-6 py-2">
+                <td v-if="user.email.length !== 0" class="px-6 py-2">
                   {{ user.email }}
                 </td>
                 <td v-else class="px-6 py-2">
@@ -250,7 +161,7 @@ const test = (i) => {
                     class="bg-gray-300 rounded-md p-1 pl-3 w-full"
                     type="text"
                     placeholder="Input Email"
-                    @keydown.enter="user.email=newEmail[i]"
+                    @keydown.enter="Users.setEmail(i,newEmail[i])"
                   />
                 </td>
                 <!-- Tag -->
@@ -258,19 +169,19 @@ const test = (i) => {
                   <button 
                     class="px-2 mx-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-blue-800" 
                     v-for="(tag, j) in user.tag"
-                    @click="this.$refs['newTag_' + i][0].focus()"
+                    @click=""
                   >
                     {{tag}}
                   </button>
                   <button class="btn px-2 mx-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-blue-800" 
                     v-if="newTag[i]===undefined" 
-                    @click="() => newTag[i] = ''"
+                    @click="newTag[i] = ''"
                     >+</button>
                   <input 
                     type="text" 
                     class="btn px-2 mx-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-blue-800" 
                     v-model="newTag[i]"
-                    @keydown.enter="user.addTag(newTag[i]); newTag[i]=''"
+                    @keydown.enter="Users.addTag(i,newTag[i]); newTag[i]=''"
                     v-else
                   />
                 </td>
@@ -333,7 +244,7 @@ const test = (i) => {
               <tr>
                 <td class="px-6 py-2">
                   <input
-                    v-model="newUserName"
+                    v-model="newUsers.name"
                     class="bg-gray-300 rounded-md p-1 pl-3 w-full text-black"
                     type="text"
                     placeholder="Input Text"
@@ -342,7 +253,7 @@ const test = (i) => {
                 </td>
                 <td class="px-6 py-2">
                   <input
-                    v-model="newUserEmail"
+                    v-model="newUsers.email"
                     class="bg-gray-300 rounded-md p-1 pl-3 w-full text-black"
                     type="text"
                     placeholder="Input Email"
