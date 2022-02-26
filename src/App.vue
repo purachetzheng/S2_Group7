@@ -259,7 +259,6 @@ const test = (i) => {
                     class="px-2 mx-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-blue-800" 
                     v-for="(tag, j) in user.tag"
                     @click="this.$refs['newTag_' + i][0].focus()"
-                    
                   >
                     {{tag}}
                   </button>

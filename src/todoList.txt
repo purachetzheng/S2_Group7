@@ -5,3 +5,4 @@ date
 - Sorting Feature
 - Add Date Feature
 - ทำปุ่ม x ที่ tag แต่ละตัว (ใช้ mouseenter เมื่อลากเมาส์เข้ามาจะขึ้นให้กดลบ tag นั้นได้ ลากเมาส์ออก x หาย)
+- คลิกที่ tag แต่ละตัวเพื่อ grouping
