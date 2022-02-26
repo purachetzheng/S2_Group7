@@ -1,6 +1,7 @@
 <script setup>
 import { ref, reactive } from "vue";
 let newEmail = reactive([]);
+let newTag = reactive([]);
 class User {
   constructor(name = "", email = "", tag = []) {
     this._name = name;
@@ -36,9 +37,9 @@ class User {
   get tag() {
     return this._tag;
   }
-  // addTag(tag){
-  //     this._tag.push(tag)
-  // }
+  addTag(tag){
+      this._tag.push(tag)
+  }
   // delTag(tag){
   //     this._tag.splice(
   //         Users.users.findIndex(ele => ele.name == name),
@@ -250,7 +251,8 @@ Users.addUser(user7);
                 <!-- Tag -->
                 <td class="px-6 py-2">
                   <button class="px-2 mx-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-blue-800" v-for="(tag, j) in user.tag">{{tag}} </button>
-                  <button class="btn px-2 mx-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-blue-800">+</button>
+                  <button class="btn px-2 mx-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-blue-800" v-if="newTag[i]===undefined" @click="newTag[i] = 1">+</button>
+                  <input type="text" class="btn px-2 mx-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-blue-800" v-model="newTag[i]" v-else/>
                 </td>
                 <td class="px-6 py-2">
                   <span
