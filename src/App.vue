@@ -2,6 +2,7 @@
 import { ref, reactive } from "vue";
 let newEmail = reactive([]);
 let newTag = reactive([]);
+let editValue = false
 class User {
   constructor(name = "", email = "", tag = []) {
     this._name = name;
@@ -165,6 +166,10 @@ Users.addUser(user4);
 Users.addUser(user5);
 Users.addUser(user6);
 Users.addUser(user7);
+// for test func
+const test = (i) => {
+  alert('This is Test')
+}
 </script>
 
 <template>
@@ -250,9 +255,25 @@ Users.addUser(user7);
                 </td>
                 <!-- Tag -->
                 <td class="px-6 py-2">
-                  <button class="px-2 mx-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-blue-800" v-for="(tag, j) in user.tag">{{tag}} </button>
-                  <button class="btn px-2 mx-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-blue-800" v-if="newTag[i]===undefined" @click="newTag[i] = 1">+</button>
-                  <input type="text" class="btn px-2 mx-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-blue-800" v-model="newTag[i]" v-else>
+                  <button 
+                    class="px-2 mx-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-blue-800" 
+                    v-for="(tag, j) in user.tag"
+                    @click="this.$refs['newTag_' + i][0].focus()"
+                    
+                  >
+                    {{tag}}
+                  </button>
+                  <button class="btn px-2 mx-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-blue-800" 
+                    v-if="newTag[i]===undefined" 
+                    @click="() => newTag[i] = ''"
+                    >+</button>
+                  <input 
+                    type="text" 
+                    class="btn px-2 mx-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-blue-800" 
+                    v-model="newTag[i]"
+                    @keydown.enter="user.addTag(newTag[i]); newTag[i]=''"
+                    v-else
+                  />
                 </td>
                 <td class="px-6 py-2">
                   <span
