@@ -6,6 +6,7 @@ const hasTagInput = reactive([])
 //ใส่ไว้ก่อน แก้ warning ดู console ยาก
 const editValue = false
 const newUsers =  reactive({name: '', email: '', status: ''})
+const hasMouseTag = reactive({x: -1, y: -1})
 
 if(JSON.parse(localStorage.getItem("users")) == null) localStorage.setItem("users", JSON.stringify([]))
 
@@ -80,9 +81,16 @@ const showTagInput = (index) => {
   nextTick(() => inputTagList[index].focus())
 }
 
-const test = (i) => {
-  alert('This is Test : ' + i)
+const test = (i,j) => {
+  console.log(hasMouseTag[i].find(el => el === j))
+  return hasMouseTag[i].find(el => el === j)
 }
+
+const totalUser = computed(() => {
+  return Users.users.length
+})
+// const hasMouseInTag = reactive([...Array(totalUser.value)].map(e => Array(10)))
+
 </script>
 
 <template>
@@ -170,9 +178,12 @@ const test = (i) => {
                   <button 
                     class="px-2 mx-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-blue-800" 
                     v-for="(tag, j) in user.tag"
-                    @click=""
+                    @mouseenter="hasMouseTag.x = i; hasMouseTag.y = j;"
+                    @mouseleave="hasMouseTag.x = -1; hasMouseTag.y = -1;"
                   >
-                    {{tag}}
+                    {{tag}} 
+                    <svg v-show="hasMouseTag.x == i && hasMouseTag.y == j" class="my-auto -mr-1 h-4 w-4 text-red-700"  width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <line x1="18" y1="6" x2="6" y2="18" />  <line x1="6" y1="6" x2="18" y2="18" /></svg>
+                    <!-- <svg class="absolute right-1 top-0.5 h-4 w-4 text-red-700"  width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <line x1="18" y1="6" x2="6" y2="18" />  <line x1="6" y1="6" x2="18" y2="18" /></svg> -->
                   </button>
                   <button class="btn px-2 mx-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-blue-800" 
                     v-if="hasTagInput[i]===undefined" 
@@ -288,4 +299,32 @@ const test = (i) => {
   margin: 0;
   padding: 0;
 }
+/* .container2 {
+    position: relative;
+    background: gray;
+    padding: 5px;
+    overflow: hidden; 
+}
+
+.container2:before, .container2:after {
+    position: absolute;
+    content: '';
+    background: red;
+    display: block;
+    width: 20%;
+    height: 2px;
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto 0 auto auto;
+}
+
+.container2:after {
+    -webkit-transform: rotate(45deg);    
+    transform: rotate(45deg);
+} */
 </style>
