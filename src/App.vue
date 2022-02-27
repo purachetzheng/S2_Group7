@@ -31,15 +31,17 @@ let Users = reactive({
     const isEmailEmpty = user.email.length === 0
     user.status = isNameEmpty || isEmailEmpty ? "incomplete" : "Active"
   },
-  setEmail(user, email){
-    const isEmailCorrect = checkEmailPattern(email)
-    isEmailCorrect ? user.email = email : alert(`Please enter a valid email`)
+  setEmail(event, user){
+    console.log(event.target.parentNode)
+    const inputEmail = event.target.value
+    const isEmailCorrect = checkEmailPattern(inputEmail)
+    isEmailCorrect ? user.email = inputEmail : alert(`Please enter a valid email`)
+    event.target.value = ''
     this.checkUser(user)
     this.setLocalStorage()
   },
-  addTag(event, user, tag){
-    user.tag.push(tag)
-    //กลับไปลบ value (ในที่นี้คือข้อความใน input)
+  addTag(event, user){
+    user.tag.push(event.target.value)
     event.target.value = ''
     this.setLocalStorage()
   },
@@ -158,11 +160,10 @@ const test = (i) => {
                 </td>
                 <td v-else class="px-6 py-2">
                   <input
-                    v-model="newEmail[i]"
                     class="bg-gray-300 rounded-md p-1 pl-3 w-full"
                     type="text"
                     placeholder="Input Email"
-                    @keydown.enter="Users.setEmail(user,newEmail[i]); newEmail[i]=''"
+                    @keydown.enter="Users.setEmail($event, user)"
                   />
                 </td>
                 <!-- Tag -->
@@ -181,9 +182,8 @@ const test = (i) => {
                   <input 
                     type="text" 
                     class="btn px-2 mx-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-blue-800" 
-                    v-model="hasTagInput[i]"
                     :ref="el => inputTagList[i] = el"
-                    @keydown.enter="Users.addTag($event,user,hasTagInput[i]); hasTagInput[i]=''"
+                    @keydown.enter="Users.addTag($event,user)"
                     v-else
                   />
                 </td>
