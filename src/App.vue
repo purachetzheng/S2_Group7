@@ -1,10 +1,11 @@
 <script setup>
-import { ref, reactive } from "vue";
-let newEmail = reactive([]);
-let newTag = reactive([]);
+import { ref, reactive, nextTick, computed } from "vue";
+const newEmail = reactive([])
+const inputTagList = reactive([])
+const hasTagInput = reactive([])
 //ใส่ไว้ก่อน แก้ warning ดู console ยาก
-let editValue = false
-let newUsers =  reactive({name: '', email: '', status: ''})
+const editValue = false
+const newUsers =  reactive({name: '', email: '', status: ''})
 
 if(JSON.parse(localStorage.getItem("users")) == null) localStorage.setItem("users", JSON.stringify([]))
 
@@ -49,7 +50,7 @@ let Users = reactive({
   },
   setLocalStorage(){
     localStorage.setItem("users", JSON.stringify(this.users))
-  }
+  },
 })
 
 const submit = () => {
@@ -77,6 +78,11 @@ const checkEmailPattern = (email) => {
     return false
   }
 };
+
+const showTagInput = (index) => {
+  hasTagInput[index] = '';
+  nextTick(() => inputTagList[index].focus())
+}
 
 const test = (i) => {
   alert('This is Test')
@@ -174,14 +180,15 @@ const test = (i) => {
                     {{tag}}
                   </button>
                   <button class="btn px-2 mx-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-blue-800" 
-                    v-if="newTag[i]===undefined" 
-                    @click="newTag[i] = ''"
+                    v-if="hasTagInput[i]===undefined" 
+                    @click="showTagInput(i)"
                     >+</button>
                   <input 
                     type="text" 
                     class="btn px-2 mx-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-blue-800" 
-                    v-model="newTag[i]"
-                    @keydown.enter="Users.addTag(i,newTag[i]); newTag[i]=''"
+                    v-model="hasTagInput[i]"
+                    :ref="el => inputTagList[i] = el"
+                    @keydown.enter="Users.addTag(i,hasTagInput[i]); hasTagInput[i]=''"
                     v-else
                   />
                 </td>
