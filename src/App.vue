@@ -1,10 +1,11 @@
 <script setup>
-import { ref, reactive } from "vue";
-let newEmail = reactive([]);
-let newTag = reactive([]);
+import { ref, reactive, nextTick, computed } from "vue";
+const newEmail = reactive([])
+const inputTagList = reactive([])
+const hasTagInput = reactive([])
 //ใส่ไว้ก่อน แก้ warning ดู console ยาก
-let editValue = false
-let newUsers =  reactive({name: '', email: '', status: ''})
+const editValue = false
+const newUsers =  reactive({name: '', email: '', status: ''})
 
 if(JSON.parse(localStorage.getItem("users")) == null) localStorage.setItem("users", JSON.stringify([]))
 
@@ -20,36 +21,33 @@ let Users = reactive({
     });
     this.setLocalStorage()
   },
-  delUser(name) {
-    this.users.splice(
-      this.users.findIndex((ele) => ele.name == name),1
-    );
+  removeUser(index) {
+    // this.users.splice(this.users.findIndex((ele) => ele == user),1);
+    this.users.splice(index,1);
     this.setLocalStorage()
   },
-  findUser(index) {
-    return this.users.find((ele, i) => i == index);
-  },
-  checkUser(index) {
-    const user = this.findUser(index)
+  checkUser(user) {
     const isNameEmpty = user.name.length === 0
     const isEmailEmpty = user.email.length === 0
     user.status = isNameEmpty || isEmailEmpty ? "incomplete" : "Active"
   },
-  setEmail(index, email){
-    const user = this.findUser(index)
-    const isEmailCorrect = checkEmailPattern(email)
-    isEmailCorrect ? user.email = email : alert(`Please enter a valid email`)
-    this.checkUser(index)
+  setEmail(event, user){
+    console.log(event.target.parentNode)
+    const inputEmail = event.target.value
+    const isEmailCorrect = checkEmailPattern(inputEmail)
+    isEmailCorrect ? user.email = inputEmail : alert(`Please enter a valid email`)
+    event.target.value = ''
+    this.checkUser(user)
     this.setLocalStorage()
   },
-  addTag(index, newTag){
-    const user = this.findUser(index)
-    user.tag.push(newTag)
+  addTag(event, user){
+    user.tag.push(event.target.value)
+    event.target.value = ''
     this.setLocalStorage()
   },
   setLocalStorage(){
     localStorage.setItem("users", JSON.stringify(this.users))
-  }
+  },
 })
 
 const submit = () => {
@@ -78,8 +76,13 @@ const checkEmailPattern = (email) => {
   }
 };
 
+const showTagInput = (index) => {
+  hasTagInput[index] = '';
+  nextTick(() => inputTagList[index].focus())
+}
+
 const test = (i) => {
-  alert('This is Test')
+  alert('This is Test : ' + i)
 }
 </script>
 
@@ -157,11 +160,10 @@ const test = (i) => {
                 </td>
                 <td v-else class="px-6 py-2">
                   <input
-                    v-model="newEmail[i]"
                     class="bg-gray-300 rounded-md p-1 pl-3 w-full"
                     type="text"
                     placeholder="Input Email"
-                    @keydown.enter="Users.setEmail(i,newEmail[i])"
+                    @keydown.enter="Users.setEmail($event, user)"
                   />
                 </td>
                 <!-- Tag -->
@@ -174,14 +176,14 @@ const test = (i) => {
                     {{tag}}
                   </button>
                   <button class="btn px-2 mx-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-blue-800" 
-                    v-if="newTag[i]===undefined" 
-                    @click="newTag[i] = ''"
+                    v-if="hasTagInput[i]===undefined" 
+                    @click="showTagInput(i)"
                     >+</button>
                   <input 
                     type="text" 
                     class="btn px-2 mx-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-blue-800" 
-                    v-model="newTag[i]"
-                    @keydown.enter="Users.addTag(i,newTag[i]); newTag[i]=''"
+                    :ref="el => inputTagList[i] = el"
+                    @keydown.enter="Users.addTag($event,user)"
                     v-else
                   />
                 </td>
@@ -223,7 +225,7 @@ const test = (i) => {
                       />
                     </svg>
                   </button>
-                  <button class="btn-del" @click="Users.delUser(user.name)">
+                  <button class="btn-del" @click="Users.removeUser(i)">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       class="h-5 w-5"
