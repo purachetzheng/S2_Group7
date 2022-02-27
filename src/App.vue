@@ -32,7 +32,6 @@ let Users = reactive({
     user.status = isNameEmpty || isEmailEmpty ? "incomplete" : "Active"
   },
   setEmail(event, user){
-    console.log(event.target.parentNode)
     const inputEmail = event.target.value
     const isEmailCorrect = checkEmailPattern(inputEmail)
     isEmailCorrect ? user.email = inputEmail : alert(`Please enter a valid email`)
