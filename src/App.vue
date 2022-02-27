@@ -21,31 +21,26 @@ let Users = reactive({
     });
     this.setLocalStorage()
   },
-  delUser(name) {
-    this.users.splice(
-      this.users.findIndex((ele) => ele.name == name),1
-    );
+  removeUser(index) {
+    // this.users.splice(this.users.findIndex((ele) => ele == user),1);
+    this.users.splice(index,1);
     this.setLocalStorage()
   },
-  findUser(index) {
-    return this.users.find((ele, i) => i == index);
-  },
-  checkUser(index) {
-    const user = this.findUser(index)
+  checkUser(user) {
     const isNameEmpty = user.name.length === 0
     const isEmailEmpty = user.email.length === 0
     user.status = isNameEmpty || isEmailEmpty ? "incomplete" : "Active"
   },
-  setEmail(index, email){
-    const user = this.findUser(index)
+  setEmail(user, email){
     const isEmailCorrect = checkEmailPattern(email)
     isEmailCorrect ? user.email = email : alert(`Please enter a valid email`)
-    this.checkUser(index)
+    this.checkUser(user)
     this.setLocalStorage()
   },
-  addTag(index, newTag){
-    const user = this.findUser(index)
-    user.tag.push(newTag)
+  addTag(event, user, tag){
+    user.tag.push(tag)
+    //กลับไปลบ value (ในที่นี้คือข้อความใน input)
+    event.target.value = ''
     this.setLocalStorage()
   },
   setLocalStorage(){
@@ -85,7 +80,7 @@ const showTagInput = (index) => {
 }
 
 const test = (i) => {
-  alert('This is Test')
+  alert('This is Test : ' + i)
 }
 </script>
 
@@ -167,7 +162,7 @@ const test = (i) => {
                     class="bg-gray-300 rounded-md p-1 pl-3 w-full"
                     type="text"
                     placeholder="Input Email"
-                    @keydown.enter="Users.setEmail(i,newEmail[i])"
+                    @keydown.enter="Users.setEmail(user,newEmail[i]); newEmail[i]=''"
                   />
                 </td>
                 <!-- Tag -->
@@ -188,7 +183,7 @@ const test = (i) => {
                     class="btn px-2 mx-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-blue-800" 
                     v-model="hasTagInput[i]"
                     :ref="el => inputTagList[i] = el"
-                    @keydown.enter="Users.addTag(i,hasTagInput[i]); hasTagInput[i]=''"
+                    @keydown.enter="Users.addTag($event,user,hasTagInput[i]); hasTagInput[i]=''"
                     v-else
                   />
                 </td>
@@ -230,7 +225,7 @@ const test = (i) => {
                       />
                     </svg>
                   </button>
-                  <button class="btn-del" @click="Users.delUser(user.name)">
+                  <button class="btn-del" @click="Users.removeUser(i)">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       class="h-5 w-5"
