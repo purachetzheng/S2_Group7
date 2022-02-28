@@ -1,31 +1,20 @@
-class user{
-    constructor(name ='', email=''){
-      this._name = name
-      this._email = email
-      this._status = 'Active'
-      this._tag = []
-    }
-    get name(){
-        return this._name
-    }
-    set name(name) {
-        this._name = name
-    }
-    get email(){
-        return this._email
-    }
-    set email(email) {
-        this._email = email
-    }
-  }
+const mySet1 = new Set()
+mySet1.add([1,2])
+console.log(mySet1)
 
+const myArr = []
+// myArr.push(new Set([1]))
+myArr[0] = new Set([1])
+myArr[0].add(2)
+console.log(myArr)
+console.log('---'+ myArr[0].has(1))
+console.log('--'+ myArr[0][1])
+myArr[0].delete(1)
+myArr[0].delete(2)
+console.log(myArr)
 
-  let user1 = new user('tester1', 'tester@t1')
-  let user2 = new user('tester2', 'tester@t2')
-  let user3 = new user('tester3', 'tester@t3')
-  let user4 = new user('tester4', 'tester@t4')
-  let user5 = new user('tester5', 'tester@t5')
-
-  console.log(user1)
-  console.log(false||false&&true)
-  console.log(false||true&&false)
+console.log("----")
+console.log(myArr[0])
+console.log(myArr[1])
+console.log(!myArr[0])
+console.log(!myArr[1])
