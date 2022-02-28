@@ -1,14 +1,14 @@
 <script setup>
 import { computed, reactive, nextTick } from 'vue';
 // const newEmail = reactive([])
-const inputTagList = reactive([]);
-const hasTagInput = reactive([]);
+const inputTagList = reactive([])
+const hasTagInput = reactive([])
 //ใส่ไว้ก่อน แก้ warning ดู console ยาก
-const editName = reactive([]);
-const editEmail = reactive([]);
+const editName = reactive([])
+const editEmail = reactive([])
 const newUsers = reactive({ name: '', email: '', status: '' });
 const hasMouseTag = reactive({ x: -1, y: -1 });
-
+const editEmailList = reactive([])
 const dateAdd = () => {
   return new Date().toLocaleDateString('th-TH');
   // หรือ new Date().toLocaleString("th-TH").substring(0, 10)
@@ -79,10 +79,11 @@ const submit = () => {
   }
 };
 
-const checkEmailPattern = (email) => {
+const checkEmailPattern = (email, mode) => {
   if (/\S+@\S+\.\S+/i.test(email)) {
     return true;
   } else {
+    if(mode) alert('Please enter a valid email')
     return false;
   }
 };
@@ -142,15 +143,28 @@ const showTagInput = (index) => {
                 <td v-if="user.email.length !== 0 && !editEmail[i]" class="px-6 py-2" @dblclick="editEmail[i] = true">
                   {{ user.email }}
                 </td>
-                <td v-else class="px-6 py-2">
+                <!-- หลังจาก dblclick จะขึ้น input สำหรับแก้ไข -->
+                <td v-else-if="editEmail[i]" class="px-6 py-2">
                   <input
                     v-model="user.email"
                     class="bg-gray-300 rounded-md p-1 pl-3 w-full"
                     type="text"
+                    :ref="el => editEmailList[i] = el"
                     placeholder="Input Email"
-                    @keydown.enter="Users.setEmail($event, user); editEmail[i] = false;"
+                    @keydown.enter="Users.setEmail($event, user)"
+                    @keyup.enter="checkEmailPattern(user.email) ? editEmail[i] = false : ''"
                   />
                 </td>
+                <td v-else class="px-6 py-2">
+                  <input
+                    class="bg-gray-300 rounded-md p-1 pl-3 w-full"
+                    type="text"
+                    :ref="el => editEmailList[i] = el"
+                    placeholder="Input Email"
+                    @keydown.enter="Users.setEmail($event, user)"
+                  />
+                </td>
+                
                 <!-- Tag -->
                 <td class="px-6 py-2">
                   <button
