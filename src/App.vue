@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, nextTick } from 'vue';
+import { computed, reactive, nextTick } from 'vue';
 // const newEmail = reactive([])
 const inputTagList = reactive([]);
 const hasTagInput = reactive([]);
@@ -9,11 +9,11 @@ const newUsers = reactive({ name: '', email: '', status: '' });
 const hasMouseTag = reactive({ x: -1, y: -1 });
 
 const dateAdd = () => {
-  return new Date().toLocaleDateString("th-TH") 
+  return new Date().toLocaleDateString('th-TH');
   // หรือ new Date().toLocaleString("th-TH").substring(0, 10)
-}
+};
 
-if(JSON.parse(localStorage.getItem("users")) == null) localStorage.setItem("users", JSON.stringify([]))
+if (JSON.parse(localStorage.getItem('users')) == null) localStorage.setItem('users', JSON.stringify([]));
 
 let Users = reactive({
   users: JSON.parse(localStorage.getItem('users')),
@@ -24,7 +24,7 @@ let Users = reactive({
       status: user.email.length === 0 ? 'Incomplete' : 'Active',
       tag: [],
       //? date: (hint)ไปสร้าง func ที่ return วันเวลาตามรูปแบบ ว/ด/ป แล้วเอามาเรียกตรงนี้
-      date: dateAdd()
+      date: dateAdd(),
     });
     this.setLocalStorage();
   },
@@ -60,7 +60,7 @@ let Users = reactive({
   },
 });
 
-const amountUsers = computed(() => Users.users.length)
+const amountUsers = computed(() => Users.users.length);
 
 const submit = () => {
   const isNameEmpty = newUsers.name.length === 0;
@@ -101,6 +101,7 @@ const showTagInput = (index) => {
     <!-- Header -->
     <div class="bg-teal-600 h-16 flex justify-center items-center">
       <h2 class="text-3xl text-white">User Management</h2>
+      <div class="bg-teal-600 text-white absolute right-6">Amount of Users : {{ amountUsers }}</div>
     </div>
 
     <!-- Content Table -->
@@ -202,7 +203,7 @@ const showTagInput = (index) => {
                     >{{ user.status }}</span
                   >
                 </td>
-                <td class="px-6 py-2">{{user.date}}</td>
+                <td class="px-6 py-2">{{ user.date }}</td>
 
                 <!-- Edit Button -->
                 <td class="px-6 py-2">
@@ -252,7 +253,6 @@ const showTagInput = (index) => {
               </tr>
             </tbody>
           </table>
-          <p style = "background-color:aqua;">Amount of Users : {{amountUsers}}</p>
         </div>
       </div>
     </div>
