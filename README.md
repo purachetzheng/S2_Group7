@@ -1,7 +1,19 @@
-# Vue 3 + Vite
+# User Management (ระบบจัดการ User)
+### Features
+- เพิ่ม/ลบ User 
+- แก้ไขข้อมูล User ได้
+- เพิ่ม Tag แต่ละวิชาให้แต่ละ User
+- นับจำนวน User ทั้งหมด
+- ตรวจสอบ status การเติมข้อมูลถ้ามีแค่ชื่อจะมีสถานะเป็น Incomplete ถ้าหากครบจะเป็น Active
+- Add Date จะ update ตามวันที่ได้ add user
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## How To 
+1. Add User โดยการเพิ่มชื่อและ Email (ไม่สามารถเพิ่ม Email อย่างเดียวได้)
+2. หากต้องการแก้ไขข้อมูลสามารถ Double Click ที่ Name หรือ Email ได้
 
-## Recommended IDE Setup
-
-- [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
+## Group Member
+- 067 นฤบดินทร์ อะมีนี 
+- 083 ปุรเชษฐ์ เจิ้น
+- 094 ภูมินทร์ ชุมภู
+- 097 ยุทธศาสตร์ ประจักษ์สุวรรณ
+- 107 วิชญพัฒน์ พัทธิกานต์สกุล
