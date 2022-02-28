@@ -5,12 +5,8 @@ const inputTagList = reactive([])
 const hasTagInput = reactive([])
 //ใส่ไว้ก่อน แก้ warning ดู console ยาก
 const editValue = false
-<<<<<<< HEAD
 const newUsers =  reactive({name: '', email: '', status: ''})
 const hasMouseTag = reactive({x: -1, y: -1})
-=======
-const newUsers = reactive({ name: '', email: '', status: '' })
->>>>>>> main
 
 if (JSON.parse(localStorage.getItem('users')) == null) localStorage.setItem('users', JSON.stringify([]))
 
@@ -49,17 +45,12 @@ let Users = reactive({
     event.target.value = ''
     this.setLocalStorage()
   },
-<<<<<<< HEAD
   removeTag(user, index){
     user.tag.splice(index,1)
     this.setLocalStorage()
   },
   setLocalStorage(){
     localStorage.setItem("users", JSON.stringify(this.users))
-=======
-  setLocalStorage() {
-    localStorage.setItem('users', JSON.stringify(this.users))
->>>>>>> main
   },
 })
 
@@ -92,16 +83,9 @@ const showTagInput = (index) => {
   nextTick(() => inputTagList[index].focus())
 }
 
-<<<<<<< HEAD
-const totalUser = computed(() => {
-  return Users.users.length
-})
-
-=======
 // const test = (i) => {
 //   alert('This is Test : ' + i)
 // }
->>>>>>> main
 </script>
 
 <template>
@@ -154,19 +138,14 @@ const totalUser = computed(() => {
                 <td class="px-6 py-2">
                   <button
                     v-for="(tag, j) in user.tag"
-<<<<<<< HEAD
+                    :key="j"
+                    class="px-2 mx-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-blue-800"
                     @mouseenter="hasMouseTag.x = i; hasMouseTag.y = j;"
                     @mouseleave="hasMouseTag.x = -1; hasMouseTag.y = -1;"
                   >
                     {{tag}} 
                     <svg v-show="hasMouseTag.x == i && hasMouseTag.y == j" @click="Users.removeTag(user,j)" class="my-auto -mr-1 h-4 w-4 text-red-700"  width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <line x1="18" y1="6" x2="6" y2="18" />  <line x1="6" y1="6" x2="18" y2="18" /></svg>
                     <!-- <svg class="absolute right-1 top-0.5 h-4 w-4 text-red-700"  width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <line x1="18" y1="6" x2="6" y2="18" />  <line x1="6" y1="6" x2="18" y2="18" /></svg> -->
-=======
-                    :key="j"
-                    class="px-2 mx-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-blue-800"
-                  >
-                    {{ tag }}
->>>>>>> main
                   </button>
                   <button
                     v-if="hasTagInput[i] === undefined"
