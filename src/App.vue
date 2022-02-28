@@ -94,15 +94,15 @@ const showTagInput = (index) => {
     <div class="flex flex-col">
       <div class="overflow-x-auto">
         <div class="overflow-auto rounded-lg m-5">
-          <table class="md:table-fixed md:w-full sm:min-w-full sm:table-auto">
+          <table class="md:table-fixed md:w-full sm:min-w-full sm:table-fixed">
             <thead class="bg-teal-500 uppercase">
               <tr>
                 <th scope="col" class="w-1/5 px-6 py-3 text-left text-xs tracking-wider text-white">Name</th>
                 <th scope="col" class="w-1/5 px-6 py-3 text-left text-xs tracking-wider text-white">Email</th>
                 <th scope="col" class="w-auto px-6 py-3 text-left text-xs tracking-wider text-white">Tag</th>
-                <th scope="col" class="w-auto px-6 py-3 text-left text-xs tracking-wider text-white">Status</th>
-                <th scope="col" class="w-auto px-6 py-3 text-left text-xs tracking-wider text-white">Add Date</th>
-                <th scope="col" class="w-auto px-6 py-3 text-left text-xs tracking-wider text-white">Edit</th>
+                <th scope="col" class="w-28 px-6 py-3 text-left text-xs tracking-wider text-white">Status</th>
+                <th scope="col" class="w-40 px-6 py-3 text-left text-xs tracking-wider text-white">Add Date</th>
+                <th scope="col" class="w-40 px-6 py-3 text-left text-xs tracking-wider text-white">Edit</th>
               </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
