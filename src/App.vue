@@ -4,7 +4,8 @@ import { computed, reactive, nextTick } from 'vue';
 const inputTagList = reactive([]);
 const hasTagInput = reactive([]);
 //ใส่ไว้ก่อน แก้ warning ดู console ยาก
-const editValue = false;
+const editName = reactive([]);
+const editEmail = reactive([]);
 const newUsers = reactive({ name: '', email: '', status: '' });
 const hasMouseTag = reactive({ x: -1, y: -1 });
 
@@ -57,7 +58,7 @@ let Users = reactive({
   },
   setLocalStorage() {
     localStorage.setItem('users', JSON.stringify(this.users));
-  },
+  }
 });
 
 const amountUsers = computed(() => Users.users.length);
@@ -124,23 +125,30 @@ const showTagInput = (index) => {
                 <td class="px-6 py-2">
                   <div class="flex items-center">
                     <!-- <div class="flex-shrink-0 h-10 w-10"></div> -->
-                    <div v-if="!editValue">
+                    <div v-if="!editName[i]" @dblclick="editName[i] = true">
                       <span>{{ user.name }}</span>
                     </div>
-                    <div v-if="editValue">
-                      <input v-model="user.name" type="text" />
+                    <div v-else>
+                      <input
+                        v-model="user.name"
+                        class="bg-gray-300 rounded-md p-1 pl-3 w-full text-black"
+                        type="text"
+                        placeholder="Input Name"
+                        @keyup.enter="editName[i] = false; Users.setLocalStorage()"
+                      />
                     </div>
                   </div>
                 </td>
-                <td v-if="user.email.length !== 0" class="px-6 py-2">
+                <td v-if="user.email.length !== 0 && !editEmail[i]" class="px-6 py-2" @dblclick="editEmail[i] = true">
                   {{ user.email }}
                 </td>
                 <td v-else class="px-6 py-2">
                   <input
+                    v-model="user.email"
                     class="bg-gray-300 rounded-md p-1 pl-3 w-full"
                     type="text"
                     placeholder="Input Email"
-                    @keydown.enter="Users.setEmail($event, user)"
+                    @keydown.enter="Users.setEmail($event, user); editEmail[i] = false;"
                   />
                 </td>
                 <!-- Tag -->
@@ -207,7 +215,7 @@ const showTagInput = (index) => {
 
                 <!-- Edit Button -->
                 <td class="px-6 py-2">
-                  <button class="btn-edit mr-2" @click="Users.editUser(user.name)">
+                  <!-- <button class="btn-edit mr-2" @click="Users.editUser(user.name)">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                       <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
                       <path
@@ -216,7 +224,7 @@ const showTagInput = (index) => {
                         clip-rule="evenodd"
                       />
                     </svg>
-                  </button>
+                  </button> -->
                   <button class="btn-del" @click="Users.removeUser(i)">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                       <path
