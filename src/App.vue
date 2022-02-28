@@ -1,13 +1,14 @@
 <script setup>
-import { reactive, nextTick } from 'vue'
+import { reactive, nextTick } from 'vue';
 // const newEmail = reactive([])
-const inputTagList = reactive([])
-const hasTagInput = reactive([])
+const inputTagList = reactive([]);
+const hasTagInput = reactive([]);
 //ใส่ไว้ก่อน แก้ warning ดู console ยาก
-const editValue = false
-const newUsers = reactive({ name: '', email: '', status: '' })
+const editValue = false;
+const newUsers = reactive({ name: '', email: '', status: '' });
+const hasMouseTag = reactive({ x: -1, y: -1 });
 
-if (JSON.parse(localStorage.getItem('users')) == null) localStorage.setItem('users', JSON.stringify([]))
+if (JSON.parse(localStorage.getItem('users')) == null) localStorage.setItem('users', JSON.stringify([]));
 
 let Users = reactive({
   users: JSON.parse(localStorage.getItem('users')),
@@ -18,65 +19,69 @@ let Users = reactive({
       status: user.email.length === 0 ? 'Incomplete' : 'Active',
       tag: [],
       //? date: (hint)ไปสร้าง func ที่ return วันเวลาตามรูปแบบ ว/ด/ป แล้วเอามาเรียกตรงนี้
-    })
-    this.setLocalStorage()
+    });
+    this.setLocalStorage();
   },
   removeUser(index) {
     // this.users.splice(this.users.findIndex((ele) => ele == user),1);
-    this.users.splice(index, 1)
-    this.setLocalStorage()
+    this.users.splice(index, 1);
+    this.setLocalStorage();
   },
   checkUser(user) {
-    const isNameEmpty = user.name.length === 0
-    const isEmailEmpty = user.email.length === 0
-    user.status = isNameEmpty || isEmailEmpty ? 'incomplete' : 'Active'
+    const isNameEmpty = user.name.length === 0;
+    const isEmailEmpty = user.email.length === 0;
+    user.status = isNameEmpty || isEmailEmpty ? 'incomplete' : 'Active';
   },
   setEmail(event, user) {
-    const inputEmail = event.target.value
-    const isEmailCorrect = checkEmailPattern(inputEmail)
-    isEmailCorrect ? (user.email = inputEmail) : alert(`Please enter a valid email`)
-    event.target.value = ''
-    this.checkUser(user)
-    this.setLocalStorage()
+    const inputEmail = event.target.value;
+    const isEmailCorrect = checkEmailPattern(inputEmail);
+    isEmailCorrect ? (user.email = inputEmail) : alert(`Please enter a valid email`);
+    event.target.value = '';
+    this.checkUser(user);
+    this.setLocalStorage();
   },
   addTag(event, user) {
-    user.tag.push(event.target.value)
-    event.target.value = ''
-    this.setLocalStorage()
+    user.tag.push(event.target.value);
+    event.target.value = '';
+    this.setLocalStorage();
+  },
+  removeTag(user, index) {
+    user.tag.splice(index, 1);
+    this.setLocalStorage();
   },
   setLocalStorage() {
-    localStorage.setItem('users', JSON.stringify(this.users))
+    localStorage.setItem('users', JSON.stringify(this.users));
   },
-})
+});
 
 const submit = () => {
-  const isNameEmpty = newUsers.name.length === 0
-  const isEmailEmpty = newUsers.email.length === 0
-  const isEmailCorrect = checkEmailPattern(newUsers.email)
+  const isNameEmpty = newUsers.name.length === 0;
+  const isEmailEmpty = newUsers.email.length === 0;
+  const isEmailCorrect = checkEmailPattern(newUsers.email);
   if (isNameEmpty) {
-    alert(`Please enter at least your name.`)
+    alert(`Please enter at least your name.`);
   } else if (isEmailCorrect || isEmailEmpty) {
-    Users.addUser(newUsers)
-    newUsers.name = ''
-    newUsers.email = ''
+    Users.addUser(newUsers);
+    newUsers.name = '';
+    newUsers.email = '';
   } else if (!isEmailCorrect) {
-    alert(`Please enter a valid email`)
-    newUsers.email = ''
+    alert(`Please enter a valid email`);
+    newUsers.email = '';
   }
-}
+};
 
 const checkEmailPattern = (email) => {
   if (/\S+@\S+\.\S+/i.test(email)) {
-    return true
+    return true;
   } else {
-    return false
+    return false;
   }
-}
+};
 
 const showTagInput = (index) => {
-  hasTagInput[index] = ''
-  nextTick(() => inputTagList[index].focus())
-}
+  hasTagInput[index] = '';
+  nextTick(() => inputTagList[index].focus());
+};
 
 // const test = (i) => {
 //   alert('This is Test : ' + i)
@@ -135,8 +140,34 @@ const showTagInput = (index) => {
                     v-for="(tag, j) in user.tag"
                     :key="j"
                     class="px-2 mx-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-blue-800"
+                    @mouseenter="
+                      hasMouseTag.x = i;
+                      hasMouseTag.y = j;
+                    "
+                    @mouseleave="
+                      hasMouseTag.x = -1;
+                      hasMouseTag.y = -1;
+                    "
                   >
                     {{ tag }}
+                    <svg
+                      v-show="hasMouseTag.x == i && hasMouseTag.y == j"
+                      class="my-auto -mr-1 h-4 w-4 text-red-700"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      stroke-width="2"
+                      stroke="currentColor"
+                      fill="none"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      @click="Users.removeTag(user, j)"
+                    >
+                      <path stroke="none" d="M0 0h24v24H0z" />
+                      <line x1="18" y1="6" x2="6" y2="18" />
+                      <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                    <!-- <svg class="absolute right-1 top-0.5 h-4 w-4 text-red-700"  width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <line x1="18" y1="6" x2="6" y2="18" />  <line x1="6" y1="6" x2="18" y2="18" /></svg> -->
                   </button>
                   <button
                     v-if="hasTagInput[i] === undefined"
