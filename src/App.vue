@@ -47,6 +47,7 @@ let Users = reactive({
   },
   removeTag(user, index){
     user.tag.splice(index,1)
+    this.setLocalStorage()
   },
   setLocalStorage(){
     localStorage.setItem("users", JSON.stringify(this.users))
@@ -84,15 +85,9 @@ const showTagInput = (index) => {
   nextTick(() => inputTagList[index].focus())
 }
 
-const test = (i,j) => {
-  console.log(hasMouseTag[i].find(el => el === j))
-  return hasMouseTag[i].find(el => el === j)
-}
-
 const totalUser = computed(() => {
   return Users.users.length
 })
-// const hasMouseInTag = reactive([...Array(totalUser.value)].map(e => Array(10)))
 
 </script>
 
