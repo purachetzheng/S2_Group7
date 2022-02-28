@@ -233,32 +233,4 @@ const showTagInput = (index) => {
   margin: 0;
   padding: 0;
 }
-/* .container2 {
-    position: relative;
-    background: gray;
-    padding: 5px;
-    overflow: hidden; 
-}
-
-.container2:before, .container2:after {
-    position: absolute;
-    content: '';
-    background: red;
-    display: block;
-    width: 20%;
-    height: 2px;
-    -webkit-transform: rotate(-45deg);
-    transform: rotate(-45deg);
-
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    margin: auto 0 auto auto;
-}
-
-.container2:after {
-    -webkit-transform: rotate(45deg);    
-    transform: rotate(45deg);
-} */
 </style>
