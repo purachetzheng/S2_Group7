@@ -270,7 +270,6 @@ const test = (i) => {
               </tr>
             </tbody>
           </table>
-          <p style = "background-color:aqua;">Amount of Users : {{amountUsers}}</p>
         </div>
         <!-- sidebar -->
         <!-- <div class="bg-teal-500 p-10 sm:w-full lg:w-3/12">
