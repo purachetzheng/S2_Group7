@@ -45,6 +45,9 @@ let Users = reactive({
     event.target.value = ''
     this.setLocalStorage()
   },
+  removeTag(user, index){
+    user.tag.splice(index,1)
+  },
   setLocalStorage(){
     localStorage.setItem("users", JSON.stringify(this.users))
   },
@@ -182,7 +185,7 @@ const totalUser = computed(() => {
                     @mouseleave="hasMouseTag.x = -1; hasMouseTag.y = -1;"
                   >
                     {{tag}} 
-                    <svg v-show="hasMouseTag.x == i && hasMouseTag.y == j" class="my-auto -mr-1 h-4 w-4 text-red-700"  width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <line x1="18" y1="6" x2="6" y2="18" />  <line x1="6" y1="6" x2="18" y2="18" /></svg>
+                    <svg v-show="hasMouseTag.x == i && hasMouseTag.y == j" @click="Users.removeTag(user,j)" class="my-auto -mr-1 h-4 w-4 text-red-700"  width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <line x1="18" y1="6" x2="6" y2="18" />  <line x1="6" y1="6" x2="18" y2="18" /></svg>
                     <!-- <svg class="absolute right-1 top-0.5 h-4 w-4 text-red-700"  width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <line x1="18" y1="6" x2="6" y2="18" />  <line x1="6" y1="6" x2="18" y2="18" /></svg> -->
                   </button>
                   <button class="btn px-2 mx-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-blue-800" 
