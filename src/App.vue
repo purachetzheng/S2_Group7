@@ -18,6 +18,7 @@ let Users = reactive({
       status: user.email.length===0? 'Incomplete':'Active',
       tag: [],
       //? date: (hint)ไปสร้าง func ที่ return วันเวลาตามรูปแบบ ว/ด/ป แล้วเอามาเรียกตรงนี้
+      date: date()
     });
     this.setLocalStorage()
   },
@@ -82,6 +83,11 @@ const showTagInput = (index) => {
 
 const test = (i) => {
   alert('This is Test : ' + i)
+}
+const date = ()=>{
+ let today = new Date();
+ let dateTime = today.getDate()+'/'+(today.getMonth()+1)+'/'+today.getFullYear();
+ return dateTime
 }
 </script>
 
@@ -200,7 +206,7 @@ const test = (i) => {
                     >{{ user.status }}</span
                   >
                 </td>
-                <td class="px-6 py-2">12 / 01 / 2022</td>
+                <td class="px-6 py-2">{{ user.date }}</td>
 
                 <!-- Edit Button -->
                 <td class="px-6 py-2">
