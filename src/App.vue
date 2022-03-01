@@ -146,10 +146,10 @@ const showTagInput = (index) => {
                 <!-- หลังจาก dblclick จะขึ้น input สำหรับแก้ไข -->
                 <td v-else-if="editEmail[i]" class="px-6 py-2">
                   <input
+                    :ref="el => editEmailList[i] = el"
                     v-model="user.email"
                     class="bg-gray-300 rounded-md p-1 pl-3 w-full"
                     type="text"
-                    :ref="el => editEmailList[i] = el"
                     placeholder="Input Email"
                     @keydown.enter="Users.setEmail($event, user)"
                     @keyup.enter="checkEmailPattern(user.email) ? editEmail[i] = false : ''"
@@ -157,9 +157,9 @@ const showTagInput = (index) => {
                 </td>
                 <td v-else class="px-6 py-2">
                   <input
+                    :ref="(el) => (editEmailList[i] = el)"
                     class="bg-gray-300 rounded-md p-1 pl-3 w-full"
                     type="text"
-                    :ref="el => editEmailList[i] = el"
                     placeholder="Input Email"
                     @keydown.enter="Users.setEmail($event, user)"
                   />
