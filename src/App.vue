@@ -92,8 +92,8 @@ const showTagInput = (index) => {
 const checkDate = (user) => {
   const userDate = user.date.match(/\d{2}:\d{2}:\d{2}/i)[0];
   const userTime = user.date.match(/(\d{1,2})[/](\d{1,2})[/](\d{4})/i)[0];
-  const nowDate = new Date().toLocaleString()
-  return userDate === nowDate ? userTime : userDate;
+  const today = new Date().toLocaleString()
+  return userDate === today ? userTime : userDate;
 }
 </script>
 
@@ -229,7 +229,6 @@ const checkDate = (user) => {
 
                 <!-- Date -->
                 <td class="px-6 py-2">{{ checkDate(user) }}</td>
-                <!-- <td class="px-6 py-2">{{ getDate(user.date) === getDate() ? getTime(user.date) : getDate(user.date) }}</td> -->
 
                 <!-- Edit Button -->
                 <td class="px-6 py-2">
