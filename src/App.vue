@@ -9,10 +9,6 @@ const editEmail = reactive([])
 const newUsers = reactive({ name: '', email: '', status: '' });
 const hasMouseTag = reactive({ x: -1, y: -1 });
 const editEmailList = reactive([])
-const dateAdd = () => {
-  return new Date().toLocaleDateString('th-TH');
-  // หรือ new Date().toLocaleString("th-TH").substring(0, 10)
-};
 
 if (JSON.parse(localStorage.getItem('users')) == null) localStorage.setItem('users', JSON.stringify([]));
 
@@ -24,8 +20,7 @@ let Users = reactive({
       email: user.email,
       status: user.email.length === 0 ? 'Incomplete' : 'Active',
       tag: [],
-      //? date: (hint)ไปสร้าง func ที่ return วันเวลาตามรูปแบบ ว/ด/ป แล้วเอามาเรียกตรงนี้
-      date: dateAdd(),
+      date: new Date().toLocaleString('th-TH')
     });
     this.setLocalStorage();
   },
@@ -93,9 +88,13 @@ const showTagInput = (index) => {
   nextTick(() => inputTagList[index].focus());
 };
 
-// const test = (i) => {
-//   alert('This is Test : ' + i)
-// }
+
+const checkDate = (user) => {
+  const userDate = user.date.match(/\d{2}:\d{2}:\d{2}/i)[0];
+  const userTime = user.date.match(/(\d{1,2})[/](\d{1,2})[/](\d{4})/i)[0];
+  const nowDate = new Date().toLocaleString()
+  return userDate === nowDate ? userTime : userDate;
+}
 </script>
 
 <template>
@@ -215,6 +214,8 @@ const showTagInput = (index) => {
                     @keydown.enter="Users.addTag($event, user)"
                   />
                 </td>
+
+                <!-- Status -->
                 <td class="px-6 py-2">
                   <span
                     :class="[
@@ -225,7 +226,10 @@ const showTagInput = (index) => {
                     >{{ user.status }}</span
                   >
                 </td>
-                <td class="px-6 py-2">{{ user.date }}</td>
+
+                <!-- Date -->
+                <td class="px-6 py-2">{{ checkDate(user) }}</td>
+                <!-- <td class="px-6 py-2">{{ getDate(user.date) === getDate() ? getTime(user.date) : getDate(user.date) }}</td> -->
 
                 <!-- Edit Button -->
                 <td class="px-6 py-2">
