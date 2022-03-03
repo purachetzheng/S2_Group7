@@ -90,9 +90,9 @@ const showTagInput = (index) => {
 
 
 const checkDate = (user) => {
-  const userDate = user.date.match(/\d{2}:\d{2}:\d{2}/i)[0];
-  const userTime = user.date.match(/(\d{1,2})[/](\d{1,2})[/](\d{4})/i)[0];
-  const today = new Date().toLocaleString()
+  const userTime = user.date.match(/\d{2}:\d{2}:\d{2}/i)[0];
+  const userDate = user.date.match(/(\d{1,2})[/](\d{1,2})[/](\d{4})/i)[0];
+  const today = new Date().toLocaleDateString('th-TH')
   return userDate === today ? userTime : userDate;
 }
 </script>
