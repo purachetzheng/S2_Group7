@@ -5,7 +5,7 @@ const inputTagList = reactive([])
 const hasTagInput = reactive([])
 const hasEditName = reactive([])
 const editNameList = reactive([])
-const editEmail = reactive([])
+const hasEditEmail = reactive([])
 const newUsers = reactive({ name: '', email: '', status: '' })
 const hasMouseTag = reactive({ x: -1, y: -1 })
 const editEmailList = reactive([])
@@ -62,6 +62,16 @@ let Users = reactive({
       hasEditName[index] = false; 
       // this.setLocalStorage()
     }
+  },
+  setUserEmail(event, user, index){
+    const inputEmail = event.target.value;
+    const isEmailCorrect = checkEmailPattern(inputEmail);
+    if(isEmailCorrect){
+      user.email = inputEmail;
+      hasEditEmail[index] = false;
+      this.checkUser(user);
+    }
+    else alert(`Please enter a valid email`);
   }
 });
 
@@ -101,6 +111,11 @@ const showTagInput = (index) => {
 const showNameInput = (user, index) => {
   hasEditName[index] = true;
   nextTick(() => editNameList[index].value = user.name);
+}
+
+const showEmailInput = (user, index) => {
+  hasEditEmail[index] = true;
+  nextTick(() => editEmailList[index].value = user.email);
 }
 
 const checkDate = (user) => {
@@ -153,17 +168,25 @@ const checkDate = (user) => {
                         type="text"
                         placeholder="Input Name"
                         @keyup.enter="user.name.length > 0 ? Users.setUserName($event, user, i) : ''"
-                        
                       />
                     </div>
                   </div>
                 </td>
                 <!-- Email -->
-                <td v-if="user.email.length !== 0 && !editEmail[i]" class="px-6 py-2" @dblclick="editEmail[i] = true">
-                  {{ user.email }}
+                <!-- v-if="user.email.length !== 0 && !hasEditEmail[i]" @dblclick="hasEditEmail[i] = true" -->
+                <td class="px-6 py-2" @dblclick="showEmailInput(user, i)">
+                  <span v-show="user.email.length !== 0 && !hasEditEmail[i]">{{ user.email }}</span>
+                  <input 
+                    v-show="user.email.length === 0 || hasEditEmail[i]"
+                    :ref="el => editEmailList[i] = el" 
+                    type="text"
+                    class="bg-gray-300 rounded-md p-1 pl-3 w-full"
+                    placeholder="Input Email"
+                    @keyup.enter="Users.setUserEmail($event, user, i)"
+                  >
                 </td>
                 <!-- หลังจาก dblclick จะขึ้น input สำหรับแก้ไข -->
-                <td v-else-if="editEmail[i]" class="px-6 py-2">
+                <!-- <td v-else-if="hasEditEmail[i]" class="px-6 py-2">
                   <input
                     :ref="el => editEmailList[i] = el"
                     v-model="user.email"
@@ -171,7 +194,7 @@ const checkDate = (user) => {
                     type="text"
                     placeholder="Input Email"
                     @keydown.enter="Users.setEmail($event, user)"
-                    @keyup.enter="checkEmailPattern(user.email) ? editEmail[i] = false : ''"
+                    @keyup.enter="checkEmailPattern(user.email) ? hasEditEmail[i] = false : ''"
                   />
                 </td>
                 <td v-else class="px-6 py-2">
@@ -183,7 +206,7 @@ const checkDate = (user) => {
                     @keydown.enter="Users.setEmail($event, user)"
                   />
                 </td>
-                
+                 -->
                 <!-- Tag -->
                 <td class="px-6 py-2">
                   <button
