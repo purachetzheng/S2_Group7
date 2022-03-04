@@ -34,14 +34,14 @@ let Users = reactive({
     const isEmailEmpty = user.email.length === 0;
     user.status = isNameEmpty || isEmailEmpty ? 'incomplete' : 'Active';
   },
-  setEmail(event, user) {
-    const inputEmail = event.target.value;
-    const isEmailCorrect = checkEmailPattern(inputEmail);
-    isEmailCorrect ? (user.email = inputEmail) : alert(`Please enter a valid email`);
-    event.target.value = '';
-    this.checkUser(user);
-    // this.setLocalStorage();
-  },
+  // setEmail(event, user) {
+  //   const inputEmail = event.target.value;
+  //   const isEmailCorrect = checkEmailPattern(inputEmail);
+  //   isEmailCorrect ? (user.email = inputEmail) : alert(`Please enter a valid email`);
+  //   event.target.value = '';
+  //   this.checkUser(user);
+  //   // this.setLocalStorage();
+  // },
   addTag(event, user) {
     user.tag.push(event.target.value);
     event.target.value = '';
