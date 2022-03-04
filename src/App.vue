@@ -3,11 +3,11 @@ import { computed, reactive, nextTick } from 'vue';
 // const newEmail = reactive([])
 const inputTagList = reactive([])
 const hasTagInput = reactive([])
-//ใส่ไว้ก่อน แก้ warning ดู console ยาก
-const editName = reactive([])
+const hasEditName = reactive([])
+const editNameList = reactive([])
 const editEmail = reactive([])
-const newUsers = reactive({ name: '', email: '', status: '' });
-const hasMouseTag = reactive({ x: -1, y: -1 });
+const newUsers = reactive({ name: '', email: '', status: '' })
+const hasMouseTag = reactive({ x: -1, y: -1 })
 const editEmailList = reactive([])
 
 if (JSON.parse(localStorage.getItem('users')) == null) localStorage.setItem('users', JSON.stringify([]));
@@ -22,12 +22,12 @@ let Users = reactive({
       tag: [],
       date: new Date().toLocaleString('th-TH')
     });
-    this.setLocalStorage();
+    // this.setLocalStorage();
   },
   removeUser(index) {
     // this.users.splice(this.users.findIndex((ele) => ele == user),1);
     this.users.splice(index, 1);
-    this.setLocalStorage();
+    // this.setLocalStorage();
   },
   checkUser(user) {
     const isNameEmpty = user.name.length === 0;
@@ -40,23 +40,33 @@ let Users = reactive({
     isEmailCorrect ? (user.email = inputEmail) : alert(`Please enter a valid email`);
     event.target.value = '';
     this.checkUser(user);
-    this.setLocalStorage();
+    // this.setLocalStorage();
   },
   addTag(event, user) {
     user.tag.push(event.target.value);
     event.target.value = '';
-    this.setLocalStorage();
+    // this.setLocalStorage();
   },
   removeTag(user, index) {
     user.tag.splice(index, 1);
-    this.setLocalStorage();
+    // this.setLocalStorage();
   },
   setLocalStorage() {
     localStorage.setItem('users', JSON.stringify(this.users));
+  },
+  setUserName(event, user, index){
+    const inputName = event.target.value;
+    const isNameEmpty = inputName.length === 0;
+    if(!isNameEmpty){
+      user.name = inputName;
+      hasEditName[index] = false; 
+      // this.setLocalStorage()
+    }
   }
 });
 
 const amountUsers = computed(() => Users.users.length);
+const autoSetLocalStorage = computed(()=> Users.setLocalStorage())
 
 const submit = () => {
   const isNameEmpty = newUsers.name.length === 0;
@@ -88,6 +98,10 @@ const showTagInput = (index) => {
   nextTick(() => inputTagList[index].focus());
 };
 
+const showNameInput = (user, index) => {
+  hasEditName[index] = true;
+  nextTick(() => editNameList[index].value = user.name);
+}
 
 const checkDate = (user) => {
   const userTime = user.date.match(/\d{2}:\d{2}:\d{2}/i)[0];
@@ -95,9 +109,12 @@ const checkDate = (user) => {
   const today = new Date().toLocaleDateString('th-TH')
   return userDate === today ? userTime : userDate;
 }
+
 </script>
 
 <template>
+  <!-- แก้ error ที่ func autoSetLocalStorage() ไม่มีใครเรียก -->
+  <input type="hidden" @click="autoSetLocalStorage">
   <div class="bg-gray-700 min-h-screen">
     <!-- Header -->
     <div class="bg-teal-600 h-16 flex justify-center items-center">
@@ -121,24 +138,27 @@ const checkDate = (user) => {
               </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
+              <!-- Name -->
               <tr v-for="(user, i) in Users.users" :key="i" class="transition ease-in-out duration-300 hover:bg-gray-200 text-black">
                 <td class="px-6 py-2">
                   <div class="flex items-center">
                     <!-- <div class="flex-shrink-0 h-10 w-10"></div> -->
-                    <div v-if="!editName[i]" @dblclick="editName[i] = true">
+                    <div v-if="!hasEditName[i]" @dblclick="showNameInput(user, i)">
                       <span>{{ user.name }}</span>
                     </div>
                     <div v-else>
                       <input
-                        v-model="user.name"
+                        :ref="el => editNameList[i] = el"
                         class="bg-gray-300 rounded-md p-1 pl-3 w-full text-black"
                         type="text"
                         placeholder="Input Name"
-                        @keyup.enter="editName[i] = false; Users.setLocalStorage()"
+                        @keyup.enter="user.name.length > 0 ? Users.setUserName($event, user, i) : ''"
+                        
                       />
                     </div>
                   </div>
                 </td>
+                <!-- Email -->
                 <td v-if="user.email.length !== 0 && !editEmail[i]" class="px-6 py-2" @dblclick="editEmail[i] = true">
                   {{ user.email }}
                 </td>
